@@ -1,0 +1,152 @@
+/* 2021.12.3(금) 11h35*/
+/* CSS 영역 -> 스타일 정보 바로 기입*/
+/* 1. 속성 선택자*/
+/* div 요소 중에서(-> div 태그를 선택하는 '태그 선택자' 사용) name 속성 값이 name1과 '일치'하는 요소에만 스타일 부여 -> div3은 name1 포함하고 있으나 '일치'하지는 않으므로 이 스타일 부여 안 됨*/
+div[name=name1] {
+    background-color: darkseagreen;
+}
+
+/* div 요소 중에서 name 속성 값에 name1이 '포함'되어 있는 요소에만 스타일 부여*/
+div[name~=name1] {
+    background: aquamarine; /*background-color로 쓰는 것이 더 맞음/정석; background로 쓰면 color 포함해서 background에 있는 여러 가지 옵션 지칭 가능*/
+}
+
+/* div 요소 중에서 class 속성 값에 i가 '포함'되어 있는 요소에만 스타일 부여*/
+div[class*=i] {
+    color:lemonchiffon;
+    background-color: forestgreen;
+}
+
+/* div 요소 중에서 class 속성 값이 div로 '시작'되는 요소에만 스타일 부여*/
+div[class|=div] {
+    color: mediumaquamarine;
+}
+
+/* div 요소 중에서 name 속성 값이 name3으로 '시작'하는 요소에만 스타일 부여*/
+div[name^=name3] {
+    background-color:powderblue;
+}
+
+/* div 요소 중에서 class 속성 값이 ss로 '끝'나는 요소에만 스타일 부여*/
+div[class$=ss] {
+    color: yellowgreen;
+}
+
+/* 프로그램은 위->아래로 실행되는 바, 위에서 적용된 스타일이 있더라도 아래에서 다른 스타일이 부여되면 아래에서 부여된 스타일이 적용됨*/
+
+/* 응용 문제: class 속성 값이 div-class인 요소들 중에서도(-> '클래스 선택자' 사용) name 속성 값에 name3가 '포함'되어 있는 요소*/
+.div-class[name~=name3] {
+    color:thistle;
+}
+
+/* 2. 자/후손 선택자*/
+/* - 자손 선택자 a>b: a요소의 자손들 중에서 b요소들만 선택*/
+/* id 속성 값이 test1인 요소의 자손들 중에서 ul 태그인 자손들(#test1>ul) ou h4 태그인 자손들(#test1>h4)*/
+#test1>h4 {
+    background-color:limegreen;
+}
+
+/* id 속성 값이 test1인 요소의 자손들 중에서 ul 태그인 요소의 자손들 중에서 li 태그들*/
+#test1>ul>li { /* #test1>li 이렇게 쓰면 적용 안 됨 <- '>' 선택자는 자손(바로 하위 요소)만 선택 가능*/
+    background-color:mediumspringgreen;
+}
+
+/* 후손 선택자 a b: a요소의 후손(모든 하위 요소)들 중에서 b요소들만 선택*/
+#test1 li {
+    color:lightseagreen;
+    background-color: olivedrab; /* #test1>ul>li 연산자/선택자 우선순위가 #test1 li 연산자 우선순위보다 높음 -> 우선순위가 밀려서 새로운 배경 색상 적용 안 됨*/
+}
+
+/* 3. 동위 선택자*/
+/* a+b: a요소 뒤에 있는 b요소 단 1개만을 선택*/
+/* id가 test2인 요소 뒤에 있는 div 요소 1개만 선택*/
+#test2+div {
+    background-color: forestgreen;
+}
+
+/* id가 test2인 요소 뒤에 있는 ul 요소 1개만 선택 -> 바로 뒤의 요소가 아니기 때문에, 아래와 같이 쓰면 선택/반영 안 됨*/
+#test+ul {
+    background-color: khaki;
+}
+
+/* a~b: a요소 뒤의 모든 b요소들을 선택*/
+/* id가 test2인 요소 뒤에 있는 모든 div 요소 선택*/
+#test2~div {
+    /* background-color: lawngreen;*/ /* 잘 작동되는 것 확인 후, 너무 다 바뀌니까 주석 처리함*/ 
+}
+
+/* id가 test2인 요소 뒤에 있는 모든 ul 요소 선택*/
+#test2~ul {
+    background-color:lightgreen;
+}
+
+/* 4. 반응 선택자*/
+.area { /* 클래스 선택자*/
+    width: 100px;
+    height: 100px;
+    background-color: lime;
+}
+
+#active-test:active { /* id 선택자; id 선택자가 클래스 선택자보다 우선순위가 높은 바, id가 active-test인 div 속성 바뀜*/
+    color: mediumturquoise;
+    background-color: teal;
+    cursor: pointer; /* active 속성이 적용된 부분을 클릭했을 때 마우스 커서가 손가락 모양으로 바뀜 vs 이 속성 없으면 마우스 커서가 그대로/변화없이 화살표 모양*/
+}
+
+#hover-test:hover {
+    color:oldlace;
+    background-color:mediumseagreen;
+    cursor: pointer;
+}
+
+/* 5. 상태 선택자*/
+/* 기본적으로 해당 선택된 요소 자체에만 스타일 반영*/
+/* checkbox가 체크되었을 때 checkbox + 글자 크기를 크게 하고자 함 <- input 태그 중 type이 checkbox인 것만 선택*/
+input[type=checkbox]:checked {
+    width: 20px;
+    height: 20px;
+    /* font-size: 20px; -> '체크된 checkbox의 글씨 크기 확대' 제대로 반영 안 됨*/ /* font-size: 글씨 크기 조정*/
+}
+
+/* checkbox가 체크되었을 때 글씨 크기도 20px로 변경하고 싶다면, '동위 레벨 선택자' 사용*/
+input[type=checkbox]:checked+label {
+    font-size: 20px;
+}
+
+/* focus*/
+/* ID 및 비밀번호 입력 상자 선택/focus 시 속성 부여하고자 함
+방법1) 반복이 많음
+input[type=text]:focus, input[type=password]:focus {
+    background-color:palegreen;
+}
+
+방법2) 더 간단히/간결하게 표현 -> 가독성 향상 + 컴퓨터 연산 속도/성능 향상*/
+input[name^=user]:focus {
+    background-color:palegreen;
+}
+
+/* enabled/disabled */
+button:disabled {
+    background-color:silver;
+}
+
+button:enabled {
+    background-color:lawngreen;
+}
+
+/* 간단 실습: ID 및 패스워드 입력 텍스트박스 비활성화시키고, 비활성화 상태의 배경 색상 바꾸기*/
+input[name^=user]:disabled {
+    background-color: darkgreen;
+}
+
+/* 나의 궁금증 = id 텍스트박스 disabled 상태일 때 placeholder 글자 색깔을 바꾸려면 어떻게 해야 할까? ㅠ.ㅠ*/
+/* 내가 시도한 방법
+input[placeholder="ID를 입력해주세요"]:disabled {
+    font-size: 10px;    
+}
+*/
+/* 인터넷에서 검색한 방법: 딱히 disabled 상태일 때 바꾸는 법은 못 찾음*/
+::placeholder {
+    color: palegreen;
+    font-size: 8px; 
+}
