@@ -1,0 +1,90 @@
+<!--2021.12.6(월) 17h30~18h30-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS 활용1</title>
+    <style>
+        body {
+            background-image: url("resources/image/woodwallpaper.jpg");
+        }
+
+        .frame {
+            width: 300px;
+            height: 300px;
+            border: 2px solid black;
+            background-color: white;
+            padding: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .photo {
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .text {
+            /* padding-top: 10px; */
+            width: 300px;
+            height: 100px;
+            text-align: center;
+            color: rgb(115, 131, 24);
+            position: absolute;
+            top: 220px;
+            left: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h2>CSS 활용 1 : 카드 형태 만들기</h2>
+    <br><br>
+
+    <!--(div.frame>(div.photo>img)+div.text>br*2)*3-->
+    <div class="frame">
+        <div class="photo"><img src="resources/image/city1.PNG" alt="city" width="300px" height="200px"></div>
+        <div class="text">
+            2021-12-31<br>
+            오늘따라 햇살이 정말 밝다..<br>
+            #이구 #지각함 #황사 #창문열고옴
+        </div>
+    </div>
+
+    <div class="frame">
+        <div class="photo"><img src="resources/image/forest1.PNG" alt="forest" width="300px" height="200px"></div>
+        <div class="text">
+            숲 속을 걸어요<br>
+            산새들이 짹짹 거리는~♪<br>
+            #전역 #헐 #우리집 #이사감
+        </div>
+    </div>
+
+    <div class="frame">
+        <div class="photo"><img src="resources/image/flower1.PNG" alt="flower" width="300px" height="200px"></div>
+        <div class="text">
+            2021-04-01<br>
+            <a href="https://www.weatheri.co.kr/board/board03_read.php?id=301&offset=&level=#:~:text=%EC%98%AC%ED%95%B4%20%EB%B2%9A%EA%BD%83%20%EA%B0%9C%ED%99%94%2C%20%ED%8F%89%EB%85%84%EB%B3%B4%EB%8B%A4%202~9%EC%9D%BC%20%EC%A0%95%EB%8F%84%20%EB%B9%A0%EB%A5%BC%20%EB%93%AF&text=%E2%97%8B%20%EB%B2%9A%EA%BD%83%EC%9D%80%203%EC%9B%94,%EA%B0%9C%ED%99%94%ED%95%A0%20%EA%B2%83%EC%9C%BC%EB%A1%9C%20%EC%98%88%EC%83%81%EB%90%9C%EB%8B%A4." target="_blank">[속보] 벚꽃 개화 시기 예상</a><br>
+            #2021 #벚꽃감성 #코로나ㅠㅠ
+        </div>
+    </div>
+
+    <div class="frame">
+        <div class="photo"><img src="resources/image/river1.PNG" alt="" width="300px" height="200px"></div>
+        <div class="text">
+            낚시란,<br>
+            인생을 쉬어가는 취미<br>
+            #못잡음 #수산시장 #광어 #만오천원
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br>
+
+    <a href="01_기본 선택자.html">처음으로 돌아가기</a>
+    
+</body>
+</html>
