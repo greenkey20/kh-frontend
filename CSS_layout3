@@ -1,0 +1,499 @@
+<!--2021.12.8(수) 9h10-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>화면 구조 잡기_상세구조</title>
+    <style>
+        div {
+            /* border: 1px solid green; */
+            box-sizing: border-box; /* width, height 속성은 기본적으로 content 영역 지정 vs width, height가 border 영역까지 지정되도록 box-sizing 속성 border-box 지정*/
+        }
+
+        /* 전체를 감싸는 div 속성 부여*/
+        .wrap {
+            width: 1000px; /* box-sizing: border-box;로 인해 border 영역 포함하여 width 1000px, height 800px로 만듦*/
+            height: 800px;
+            /* margin: auto;*/ /* margin = 바깥쪽(4방)에 여백 주기 -> 상/하는 auto 속성 안 먹음 vs 좌/우 margin auto로 주어(좌/우에서 각각 밂) 화면 가운데에 배치되도록 함*/
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 큰 4등분 속성 부여
+           선택자1) #header, #navigator, #content, #footer로 선택해도 되나, id 수가 많아지면 번거로워짐
+           선택자2) wrap 클래스 바로 아래/자식 요소가 div 밖에 없으니까 .wrap>*로 뭉뚱그려 써도 됨
+           선택자3) wrap 클래스의 바로 아래/자식 div 요소*/
+        .wrap>div {width: 100%;} /* 부모 요소 너비와 같은 너비를 가져야 함*/
+        #header, #footer {height: 20%;} /* 부모 요소 높이의 20%로 지정*/
+        #navigator {height: 5%;}
+        #content {height: 55%;}
+        
+        /* 세부 div들 속성 부여*/
+        /* 공통 속성*/
+        /* #header_1, #header_2, #header_3, #content_1 등 id 구체적으로 나열해야 하는 경우도 있으나, 여기서는 아래와 같이 선택자*/
+        #header>div, #content>div {
+            height: 100%;
+            float: left; /* div = block 요소 -> 부모의 세로 길이만큼 block으로 쌓임 vs 띄워서(float) 왼쪽으로 붙게 함*/
+        }
+        /* 각각의 width 값 지정*/
+        #header_1 {width: 20%;}
+        #header_2 {width: 65%;}
+        #header_3 {width: 15%;}
+
+        #content_1 {width: 15%;}
+        #content_2 {width: 60%;}
+        #content_3 {width: 25%;}
+
+        /*---------- footer (bar) 스타일 속성 시작 ----------*/
+        /* 세부 속성 부여*/
+        #footer_1 {
+            width: 100%;
+            height: 20%;
+            background-color: rgb(210, 243, 210);
+        }
+
+        #footer_2 {
+            width: 100%;
+            height: 80%;
+        }
+
+        /* footer_1의 a 태그 속성*/
+        #footer_1>a {
+            text-decoration: none;
+            color: rgb(57, 66, 57);
+            font-weight: 550;
+            margin: 15px; /* a 태그끼리/사이 간격 두기*/
+            vertical-align: middle; /* 수직 구조에서 가운데 정렬해주는 속성; 단, 적용 가능한 곳이 많지 않음*/
+        }
+
+        /* p 태그에 대한 세부적인 속성*/
+        #footer_2>p {
+            width: 100%;
+            margin: 0; /* p 태그(블럭 요소)의 특성상 2개 p 태그 사이의 margin이 위/아래로 기본적으로 들어가 있음 -> 그 margin 없애줌*/
+            box-sizing: border-box; /* p 태그의 테두리까지를 부모(높이)의 20/80% 지정해야 부모 영역 안에 잘 담김*/
+            font-size: 12px; /* 폰트 사이즈 줄임*/
+        }
+
+        #p1 {
+            height: 80%;
+            padding-top: 5px; /* border와 content 사이 간격 띄어줌*/
+            padding-left: 10px;
+        }
+
+        #p2 {
+            height: 20%;
+            font-weight: 300; /* 글자 간격 비교적 좁아짐*/
+            text-align: center;
+        }
+        /*---------- footer (bar) 스타일 속성 끝 ----------*/
+
+        /*---------- content_1 영역(공지사항) 스타일 속성 시작 ----------*/
+        #notice {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            /* position: relative; */
+        }
+
+        #notice>h3 {
+            width: 100%;
+            height: 10%;
+            text-align: center;
+            background-color: darkgreen;     
+            color: greenyellow;       
+            padding-top: 20px;
+            /* position: absolute;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px; */
+        }
+
+        #notice>p {
+            width: 100%;
+            height: 70%;
+            margin: 0;
+            font-size: 14px;            
+        }
+        /*---------- content_1 영역(공지사항) 스타일 속성 끝 ----------*/
+
+        /*---------- content_2 영역(게시판) 스타일 속성 시작 ----------*/        
+        table {
+            width: 95%;
+            height: 90%;
+            margin: auto;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+
+        caption {
+            text-align: left;
+            font-size: 16px;
+            font-weight: 800;
+
+        }
+
+        thead, tfoot {
+            text-align: center;
+            background-color: darkgreen;
+            color: greenyellow;            
+        }
+
+        tbody {
+            text-align: center;
+            background-color: rgb(210, 243, 210);
+            color: darkgreen;
+        }
+        /*---------- content_2 영역(게시판) 스타일 속성 끝 ----------*/   
+
+        /*---------- content_3 영역(로그인 폼) 스타일 속성 시작 ----------*/
+        /* 1 영역*/
+        #login_form {
+            width: 100%;
+            height: 30%;
+        }
+
+        /* 2a, 2b 영역*/
+        #login_form>* {width: 100%;}
+        #login_form_input {height: 80%;}
+        #login_form_etc {height: 20%;}
+
+        /* 3a, 3b 영역*/
+        #login_form_input>div {
+            height: 100%;
+            float: left;
+        }
+        #login_input_id_pwd {width: 65%;}
+        #login_input_btn {width: 35%;}
+
+        /* input 태그 늘려주기*/
+        #login_input_id_pwd>input {
+            width: 100%;
+            height: 50%;
+            box-sizing: border-box;
+        }
+        #login_input_btn>input {
+            width: 100%;
+            height: 100%;
+        }
+        #login_form_etc>a {
+            text-decoration: none;
+            color: rgb(93, 139, 93);
+            font-size: 12px;
+            margin: 15px;
+            /* vertical-align: middle; */ /* 비교해보니 이 속성 안 줘도 똑같은 바, 주석 처리함*/
+        }
+        /*---------- content_3 영역(로그인 폼) 스타일 속성 끝 ----------*/
+
+        /*---------- header_1 영역(로고) 스타일 속성 시작 ----------*/
+        #header_1 {
+            position: relative;
+        }
+        #logo {
+            /* 춤추는 피카츄 이미지(test-img.gif) 넣었을 때 이미지 크기를 div 영역 크기에 맞게 조정해봄*/
+            /* width: 100%;
+            height: 100%; */
+            margin: auto;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+        }
+        /*---------- header_1 영역(로고) 스타일 속성 끝 ----------*/
+
+        /*---------- header_2 영역(검색 창) 스타일 속성 시작 ----------*/
+        #header_2 {
+            position: relative; /* 기준점*/
+        }
+
+        #search_form {
+            width: 70%;
+            height: 20%;
+            margin-left: auto;
+            margin-right: auto;
+            /* vertical-align: middle; */ /* 여기서 vertical-align 안 먹음*/
+            position: absolute;
+            /* 내가 나름 계산했던 값 */
+            /* top: 64px;
+            left: 97.5px; */
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto; /* 나의 질문 = 위에서 margin-left, margin-right 속성 준 것과 중복? 이 margin과 저 margin들은 어떤 관계이지?*/
+        }
+
+        /* 검색 창 form 내부의 div 속성*/
+        #search_form>div {
+            height: 100%;
+            float: left;
+        }
+        #search_text {width: 85%;}
+        #search_btn {width: 15%;}
+
+        /* input 태그를 늘려주기*/
+        #search_form input {
+            width: 100%;
+            height: 100%;
+        }
+        /*---------- header_2 영역(검색 창) 스타일 속성 끝 ----------*/
+
+        /*---------- header_3 영역(카드 형태) 스타일 속성 시작 ----------*/
+        .card {
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .card>img {
+            width: 100%;
+            height: 70%;
+        }
+
+        .card>p {
+            width: 100%;
+            height: 30%;
+            margin: 0;
+            font-size: 14px;
+            text-align: center;
+            color: green;            
+        }
+        /*---------- header_3 영역(카드 형태) 스타일 속성 끝 ----------*/
+
+        /*---------- navigator(메뉴바) 스타일 속성 시작 ----------*/
+        #navi {
+            list-style: none; /* list bullet 기호 없애기*/
+            margin: 0px; /* list(ul 포함)에는 위/아래 margin 및 padding이 기본적으로 존재하는 바, 없애줌*/
+            padding: 0px;
+            height: 100%; /* 블럭 요소인 li들을 옆으로 나열해서 붙일 거니까, #navi 요소들의 높이를 부모 요소 높이와 같게 함*/
+        }
+
+        #navi>li {
+            float: left; /* 떠서 왼쪽 옆으로 붙어라*/
+            width: 14%; /* 23번 html 파일에서 작업할 때는 17% vs 다른 요소들과 합쳐보니 content_3 부분에 겹쳐서 drop menu(?)가 안 보임 -> 겹치면 보기에도 안 좋고, navigator에 z-index 줘서 올리는 대신, width 14%로 줄임*/
+            text-align: center; /* text/내용물 좌/우 가운데 정렬*/
+            height: 100%;
+        }
+
+        #navi a { /* a 태그는 #navi의 자손/1단계 아래가 아니므로, >로 선택자 연결하면 안 됨*/
+            text-decoration: none;
+            color: green;
+            font-weight: 800; /* 글씨 굵게*/
+            width: 100%; /* inline 요소(a 태그 포함)는 대부분 width, height 속성 적용 안 됨*/
+            height: 100%;
+            display: block; /* a 태그를 block 요소로 바꿔줌 -> width, height 속성 적용 가능*/
+            /*vertical-align: middle;*/ /* vertical-align: middle은 block 요소에서 적용 안 됨(노란줄 뜸)*/
+            line-height: 35px; /* 줄 간격 속성(px, %, em); 눈 대중으로 값 정하기*/
+            /* 16h15 화면 통합 시 이슈/문제 발생: 메인메뉴의 a 태그와 서브메뉴의 ul 태그의 연결이 미세하게 끊겨있어서 발생*/
+            /* transform: 애니메이션 효과를 줄 수 있는 속성 -> scale(): 몇 배 확대하겠다*/
+            transform: scale(1); /* a 태그를 1배 확대/정배율 -> 미세하게 끊긴 부분을 연결해줌*/
+        }
+
+        #navi a:hover {
+            color: darkgreen;
+            font-size: 17px;
+        }
+
+        #navi>li>ul {
+            list-style-type: none; /* list bullet 기호 없애기*/
+            padding: 0px;
+            /* 평소에는 안 보이다가 a(과목 대분류)에 마우스가 올라가는 순간 펼쳐지는 효과: 단계1)*/
+            display: none;
+        }
+        /* 단계2)*/
+        #navi>li>a:hover+ul { /* #navi>li>a의 바로 뒤에 있는 ul을 선택하는 선택자*/
+            display: block;
+        }
+        /* 단계3)*/
+        #navi>li>ul:hover {
+            display: block;
+        }
+
+        #navi>li>ul a {font-size: 11px;}
+        #navi>li>ul a:hover {font-size: 14px;}
+        /*---------- navigator(메뉴바) 스타일 속성 끝 ----------*/
+    </style>
+</head>
+<body>
+    <!--.wrap>(#header>#header_$*3)+#navigator+(#content>#content_$*3)+#footer-->
+    <div class="wrap">
+        <div id="header">
+            <div id="header_1">
+                <img src="resources/image/kh_logo.jpg" alt="logo" id="logo">
+            </div>
+            <div id="header_2">
+                <form action="test.do" id="search_form">
+                    <div id="search_text">
+                        <input type="search" name="keyword"> <!--input type search이면 상자 우측에 x 표시 생김 -> 입력한 내용 삭제 가능-->
+                    </div>
+                    <div id="search_btn">
+                        <input type="submit" value="검색">
+                    </div>
+                </form>
+            </div>
+            <div id="header_3">
+                <div class="card">
+                    <img src="resources/image/flower2.PNG" alt="꽃2">
+                    <p>
+                        아자아자<br>
+                        파이팅!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="navigator">
+            <!--list도 block 요소인 바, 이런 메뉴바 간단하게 만들 수 있음-->
+            <ul id="navi">
+                <li><a href="">Java</a></li>
+                <li><a href="">Oracle</a></li>
+                <li>
+                    <a href="">Front-End</a>
+                    <ul>
+                        <li><a href="">HTML</a></li>
+                        <li><a href="">CSS</a></li>
+                        <li><a href="">JavaScript</a></li>
+                        <li><a href="">jQuery</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">Server</a>
+                    <ul>
+                        <li><a href="">JDBC</a></li>
+                        <li><a href="">Servlet</a></li>
+                        <li><a href="">JSP</a></li>
+                        <li><a href="">Ajax</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="">Framework</a>
+                    <ul>
+                        <li><a href="">MyBatis</a></li>
+                        <li><a href="">Spring</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="content">
+            <div id="content_1">
+                <div id="notice">
+                    <h3>공지사항</h3>
+                    <p>
+                        멀리 언덕 다 어머님, 봅니다. 별이 때 헤일 소학교 하나 책상을 북간도에 듯합니다. 별에도 내린 그러나 봅니다. 별에도 다 소녀들의 있습니다.<br><br>
+                        헤일 다 나는 이름을 하나 밤을 있습니다. 멀리 동경과 아침이 같이 그러나 헤는 어머니, 별을 봅니다. 동경과 새워 내 계십니다. 우는 남은 자랑처럼 파란 피어나듯이 계절이 봅니다.
+                    </p>
+                </div>
+            </div>
+            <div id="content_2">
+                <table>
+                    <caption>[게시판]</caption>
+                    <thead>
+                        <tr>
+                            <th>글 번호</th>
+                            <th>제목</th>
+                            <th>닉네임</th>
+                            <th>작성일</th>
+                            <th>조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5</td>
+                            <td>[Java] 반복문 과제</td>
+                            <td>학생5</td>
+                            <td>2021-12-08 16:23</td>
+                            <td>7</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>[JDBC] 주차타워 관리 프로그램 v1</td>
+                            <td>학생4</td>
+                            <td>2021-12-08 15:23</td>
+                            <td>3</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>[JavaScript] 변수 관련 질문 있습니다</td>
+                            <td>학생3</td>
+                            <td>2021-12-08 14:23</td>
+                            <td>5</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>[Java] String API 과제</td>
+                            <td>학생2</td>
+                            <td>2021-12-08 11:23</td>
+                            <td>8</td>
+                        </tr>
+
+                        <tr>
+                            <td>1</td>
+                            <td>[Spring] 클래스 다이어그램 코멘트 부탁드립니다</td>
+                            <td>학생1</td>
+                            <td>2021-12-08 10:23</td>
+                            <td>11</td>
+                        </tr>
+                    </tbody> 
+                    <tfoot> 
+                        <tr>
+                            <td rowspan="2">합계</td> 
+                            <td colspan="4" height="50">총 게시글 수 : 5</td> 
+                        </tr>
+            
+                        <tr>
+                            <td colspan="4" height="50">총 조회수 : 53</td>
+                        </tr>
+                    </tfoot> 
+                </table>
+            </div>
+            <div id="content_3">
+                <!--1) 로그인과 관련된 전체 내용을 감싸는 div-->
+                <div id="login_form">
+                    <!--2a) 입력받을 태그들이 존재하는 영역-->
+                    <!--내용 입력받아 서버로 보낼 것이므로 form 태그 사용-->
+                    <form action="test.do" method="post" id="login_form_input"> <!--action = 보낼 서버; method = 보내는 방식; ID, 비밀번호는 주소창에 정보 공개되면 안 되므로 get(x) post(o) 방식으로 보냄-->
+                        <!--3a) 왼쪽 = ID, 비밀번호 입력받을 text 영역-->
+                        <div id="login_input_id_pwd">
+                            <input type="text" name="userId" placeholder="ID" required>
+                            <input type="password" name="userPwd" placeholder="비밀번호" required>
+                        </div>
+                        <!--3b) 오른쪽 = 로그인 버튼이 위치할 button 영역-->
+                        <div id="login_input_btn">
+                            <input type="submit" value="로그인">
+                        </div>
+                    </form>            
+                    <!--2b) 회원 가입, id/pwd 찾기 페이지를 요청할 a 태그들이 존재하는 영역-->
+                    <div id="login_form_etc">
+                        <a href="">회원 가입</a>
+                        <a href="">ID/비밀번호 찾기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div id="footer_1">
+                <a href="#">이용 약관</a> |
+                <a href="#">개인정보 취급 방침</a> |
+                <a href="#">인재 채용 문의</a> |
+                <a href="#">고객 센터</a>
+            </div>
+            <div id="footer_2">
+                <!-- p 태그도 블럭 요소이기 때문에 영역이 나눠짐-->
+                <p id="p1">                
+                    강남지원 1관 : 서울특별시 강남구 테헤란로14길 6 남도빌딩 2F, 3F, 4F, 5F, 6F<br>
+                    강남지원 2관 : 서울특별시 강남구 테헤란로10길 9 그랑프리 빌딩 4F, 5F, 7F<br>
+                    강남지원 3관 : 서울특별시 강남구 테헤란로 130 호산빌딩 5F, 6F<br>
+                    종로지원 : 서울특별시 중구 남대문로 120 대일빌딩 2F, 3F<br>
+                    당산지원 : 서울특별시 영등포구 선유동2로 57 이레빌딩 (구관) 19F, 20F
+                </p>
+                <p id="p2">
+                    Copyright © 1998-2021 KH Information Educational Institute All Right Reserved
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
