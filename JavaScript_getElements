@@ -1,0 +1,203 @@
+<!--2021.12.10(금) 11h30-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>요소 가져오기/접근하기</title>
+    <style>
+        .area {
+            border: 1px solid green;
+            width: 300px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HTML 요소에 접근하기/해당 요소객체 가져오기</h1>
+    <h3>1) id로 접근</h3>
+    <div id="area1" class="area"></div>
+    <button onclick="accessId();">id로 접근</button> <!--onclick = 이벤트(이 버튼을 클릭할 때); accessId()라는 함수는 없음-->
+    <script>
+        function accessId() { // accessId()라는 함수는 아직 존재하지 않는 바, 선언적(이름 있는) 함수 1개 만듦/선언
+            // id로 요소에 접근 시 document.getElementById(메소드의 인자 값 = '접근할 요소의 id 속성 값'); -> 이렇게 가지고/들어 온 객체를 '요소객체'라고 부름
+            // var 변수명 = document.getElementById('접근할 요소의 id 속성 값');
+            var area1 = document.getElementById('area1'); // 1번 출력하고 말 것 아니면 재활용을 위해 변수 선언
+            console.log(area1); // 위에서 만든 div에 변수명 area1으로 접근함
+            console.dir(area1); // 이 div 요소가 가지고 있는 속성-값 조회 -> 위에서 div 생성 시 기재한 id, class 모두 '속성' -> JavaScript의 모든 것은 '속성-값'으로 이루어져 있음 cf. 속성-값 = Java의 map
+
+            area1.innerHTML = '<b>id로 접근 성공!</b><br>';
+            area1.innerHTML += '안녕하세요 <mark>:D</mark>';
+
+            // 선택된 요소의 스타일 변경
+            // 방법1) CSS inline 방식 -> 브라우저 개발자 도구로 확인 시, inline 방식으로 스타일이 부여된 것을 알 수 있음
+            // area1.style = 'background : green; border : 2px dotted lightgreen; color : lightgreen; width : 150px;';
+            // 방법2) 속성 직접 접근해서 값 대입
+            area1.style.background = 'green';
+            area1.style.border = '2px dotted lightgreen';
+            area1.style.color = 'lightgreen';
+            area1.style.width = '150px';             
+        }
+    </script>
+
+    <br><br>
+    <!--12h10 실습 문제: 7개 무지개 빛깔 색 돌리기 <- JavaScript 조건문/if문 사용-->
+    <div id="area2" class="area" style="background: red;"></div>
+    <button onclick="accessId2()">실습 시간</button>
+    <script>
+        function accessId2() {
+            // 버튼이 눌릴 때마다 이 함수가 호출됨 -> 그 때의 배경색이 무엇인지에 따라(조건) 다른 배경색 출력
+            var area2 = document.getElementById('area2');
+            console.log(area2.style.background);
+
+            // 강사님 방식
+            if (area2.style.background == 'red') {
+                area2.style.background = 'orange';
+            }
+            else if (area2.style.background == 'orange') {
+                area2.style.background = 'yellow';
+            }
+            else if (area2.style.background == 'yellow') {
+                area2.style.background = 'green';
+            }
+            else if (area2.style.background == 'green') {
+                area2.style.background = 'blue';
+            }
+            else if (area2.style.background == 'blue') {
+                area2.style.background = 'navy';
+            }
+            else if (area2.style.background == 'navy') {
+                area2.style.background = 'purple';
+            }
+            else {
+                area2.style.background = 'red';
+            } 
+           
+            /* 나의 시도 -> 주황색 이후 어떻게 바꾸는지 모르겠음 ㅠ.ㅠ
+            var num = 0;
+            num++;
+
+            if (num%7 == 1) {
+                area2.style.background = 'orange';
+            } */                 
+        }
+    </script>
+
+    <!--2021.12.10(금) 14h15-->
+    <hr>
+    <h3>2) 태그명으로 가져오기 -> 동일한 요소에 동적인 효과 줄 수 있음</h3>
+    <!--ul>li{목록$}*5-->
+    <ul>
+        <li>목록1</li> <!--style="background-color: rgb(25, 102, 25);"-->
+        <li>목록2</li>
+        <li>목록3</li>
+        <li>목록4</li>
+        <li>목록5</li>
+    </ul>
+    <button onclick="accessTagName()">태그명으로 접근</button>
+    <script>
+        function accessTagName() {
+            // 태그명으로 요소에 접근: document.getElementsByTagName('접근하고자 하는 태그명'); -> 선택된 여러 개의 요소객체들이 (위에 있는 것부터 순차적으로) 배열에 담겨서 반환됨
+            // JavaScript에서 배열은 []로 표현
+            var list = document.getElementsByTagName('li'); // [li요소객체1, li요소객체2, ..]
+            console.log(list);
+            console.log('배열의 크기 : ' + list.length);
+
+            // 인터넷 검색: https://ofcourse.kr/js-course/style-%EC%86%8D%EC%84%B1
+            // var r = parseInt(Math.random() * 256);
+			// var g = parseInt(Math.random() * 256);
+			// var b = parseInt(Math.random() * 256);
+			// box.style.backgroundColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+            // li 요소객체마다 배경색 그라데이션 적용
+            /*
+            list[0].style.background = 'rgb(90, 190, 170)';
+            list[1].style.background = 'rgb(90, 190, 190)';
+            list[2].style.background = 'rgb(90, 190, 210)';
+            list[3].style.background = 'rgb(90, 190, 230)';
+            list[4].style.background = 'rgb(90, 190, 250)';
+            */
+
+            // 반복문으로 그라데이션 배경색 추가 + rgb(r, g, b) 방식으로 색상 입력하기
+            // 내가 한 방법
+            for (var i = 0; i < list.length; i++) {
+                list[i].style.background = 'rgb(100, 190, ' + (i * 60) + ')';
+                console.log('목록' + (i + 1) + '의 배경색 : ' + list[i].style.background);
+            }
+
+            // 강사님 방법
+            /*
+            var blueColor = 50;
+            for (var i = 0; i < list.length; i++) {
+                list[i].style.background = 'rgb(100, 200, ' + blueColor + ')';
+                blueColor += 50;
+            }
+            */
+        }
+    </script>
+
+    <hr>
+    <h3>3) name 속성 값으로 가져오기</h3>
+    <form action="test.do" method="get">
+        <fieldset>
+            <legend>취미</legend>
+            <input type="checkbox" name="hobby" value="study" id="study"><label for="study">공부</label>
+            <input type="checkbox" name="hobby" value="books" id="books"><label for="books">독서</label>
+            <input type="checkbox" name="hobby" value="music" id="music"><label for="music">음악감상</label>
+            <input type="checkbox" name="hobby" value="piano" id="piano"><label for="piano">피아노연주</label>
+            <input type="checkbox" name="hobby" value="walk" id="walk"><label for="walk">산책</label>
+            <input type="checkbox" name="hobby" value="yoga" id="yoga"><label for="yoga">요가</label>
+        </fieldset>
+    </form>
+    <button onclick="accessName()">name으로 접근</button>
+    <script>
+        function accessName() {
+            // name 속성 값으로 요소에 접근: document.getElementsByName('접근하고자 하는 name 속성 값'); -> 선택된 요소객체들이 배열에 담겨서 반환됨
+            var hobby = document.getElementsByName('hobby'); // [공부checkbox, 독서checkbox, ..]
+
+            
+            // name이 'hobby'인 요소객체들이 변수 hobby에 잘 담겼는지 확인해보기
+            // 방법1) 강사님께서 쓰신 코드
+            // console.log(hobby);
+            // 방법2) 반복문으로 console에서 확인해보기 -> 내가 써본 것
+            /*
+            for (var i = 0; i < hobby.length; i++) {
+                console.log(hobby[i]);
+            }
+            */
+
+            // 체크가 (안)되었는지 확인하는 logic 짜기
+            // Java에서의 boolean 형태 = true, false
+            // JavaScript에서의 boolean 형태 = false(+ 0, null, undefined, NaN, ''(빈 문자열) 등 false 같아 보이는 것), true(왼쪽과 같이 falsey하지 않은 것들은 모두 true)
+            var checkedItem = '';
+            for (var i = 0; i < hobby.length; i++) {
+                if (hobby[i].checked) { // checkbox 체크된 건 true vs 안 된 건 false; JavaScript에서는 굳이 조건식 만들어 true/false 만들지 않아도 됨 -> hobby[i].checked != null 이렇게 쓸 필요 없음 -> 체크가 된 것들은/경우
+                    checkedItem += hobby[i].value + ' '; // .(점, dot) = 참조/직접접근 연산자
+                }
+            }
+
+            // 결과는 내가 보고 싶은대로 찍어보면 됨            
+            // console.log('선택된 취미 : ' + checkedItem); // 내가 해 본 방식
+            alert(checkedItem); // 강사님 방식
+        }
+    </script>
+
+    <hr>
+    <h3>4) class명으로 접근</h3> <!--클래스 = 요소(들)에 별명 지어준 것-->
+    <div class="test"></div>
+    <p class="test"></p>
+    <ul class="test">
+        <li></li>
+        <li></li>
+    </ul>
+    <pre class="test test2"></pre>
+    <button onclick="accessClass();">class로 접근</button>
+    <script>
+        function accessClass() {
+            // 클래스 속성으로 요소를 가져올 때: document.getElementsByClassName('접근하고자 하는 class 속성 값'); -> 선택된 요소객체들을 배열에 담아 반환
+            var arr = document.getElementsByClassName('test');
+
+            console.log(arr);
+        }
+    </script>
+</body>
+</html>
