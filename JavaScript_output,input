@@ -1,0 +1,237 @@
+<!--2021.12.9(목) 12h30-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>데이터 입/출력</title>
+    <style>
+        .area {
+            border: 1px solid green;
+            width: 500px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript에서의 데이터 입/출력</h1>
+
+    <!--Java에서처럼 JavaScript에서도 객체.객체가 가진 메소드() 참조해서 사용
+        window.alert();
+
+        JavaScript의 데이터 입/출력 관련 객체들
+        1. window: JavaScript 내장 객체로, 브라우저 창이 하나 열릴 때마다 하나씩 만들어지는 객체 + 브라우저 창 안에 존재하는 모든 요소들의 최상위 객체(Java의 Object)
+         -> 모든 곳에 적용되기 때문에, 생략 가능(Java에서 extends Object 생략 가능)
+         e.g. window.alert(); -> alert();
+              console.log(); <- window.console.log();
+        2. document: 웹문서(HTML)마다 하나씩 만들어지는 객체; (해당) HTML 문서에 대한 정보들을 가지고 있음
+         e.g. document.getElementById();-->
+    
+    <h2>1. 데이터를 출력하는 기본 구문</h2>
+    <p>
+       1) window.alert('알림창에 출력할 문구');<br> <!--" " 써도 되는데, 실제로 ' ' 더 많이 쓰는 듯함(강사님 설명)-->
+       2) window.console.log('콘솔창에 출력할 문구');<br> <!--수업시간에 많이/자주 사용할 것임-->
+       3) document.write('화면에 출력할 문구');<br>
+       4) 선택한요소.innerHTML(html코드)/innerText(일반content) = '해당 요소에 출력할 문구'; <!--수업시간에 많이/자주 사용할 것임-->
+    </p>
+
+    <!--2021.12.9(목) 14h25-->
+    <h3>3) document.write('화면에 출력할 문구');</h3>
+    <button onclick="documentWrite()">화면에 출력</button>
+
+    <script> // JavaScript 영역 시작
+        // 함수 선언 = script 영역/태그 내부에 function키워드(?) 만들고자 하는 함수명() {}
+        function documentWrite() {
+            // document.write("hello, JavaScript! 출력") // 테스트해봄
+            // document.write("<b>잘 출력되나요?<br><hr>hej!</b>"); // 화면에 출력할 문자열에 html 태그가 있을 경우 진짜 html 태그로 해석되어 보여짐
+
+            // 테이블 만들어보기
+            // 1행 2열 테이블 만드는 html 코드
+            /* <table>
+                <tr> 행 만들어줌
+                    <td>1</td>
+                    <td>2</td>
+                </tr>
+               </table>*/
+            var table1 = '<table border="1">';
+            table1 += '<tr>'; // 문자열끼리 더해서 테이블을 만드는 html 소스코드를 만듦
+            table1 += '<td>1</td>';
+            table1 += '<td>2</td>';
+            table1 += '</tr>';
+            table1 += '</table>';
+         
+            var table2 = '<table border="1"><tr><td>1</td><td>2</td></tr></table>'; // 변수 선언 시 테이블 만드는 소스코드 길게 써서 대입해도 됨
+
+            document.write(table2); // 기존에 있던 html 요소들을 write() 함수로 전달받은 것으로 덮어쓰기한 개념
+        }
+    </script> <!--JavaScript 영역 끝-->
+    
+    <!--2021.12.9(목) 15h-->
+    <h3>4) 선택한요소.innerHTML/innerText = '해당 요소에 출력할 내용';</h3>
+    
+    <div class="area" id="area1">
+        innerHTML과 innerText: JavaScript에서 어떤 요소(element) 안의 값(content)을 가지고 오거나 변경하고자 할 때 <b>innerHTML, innerText</b>라는 속성에 접근 가능함<br>
+        -> 가지고 올 때: 변수 = 선택한요소.innerHTML/innerText;<br>
+        -> 변경하고자 할 때: 선택한요소.innerHTML/innerText = '변경할 값';
+    </div>
+
+    <button onclick="tagValue()">확인</button> <!--button 요소를 클릭하면 tagValue() 함수를 호출하고자 함 -> tagValue() 함수는 아직 존재하지 않는 바, 아래 script 영역에서 만듦-->
+    <script>
+        function tagValue() { // tagValue() 함수 선언 -> 이하 tagValue() 함수 호출 시 실행할 코드
+            // 단계1) 이 문서에서(document.) id를 통해 요소를 가져옴 -> 해당 '요소 객체'를 가져와서 이름이 divEl인 변수에 담음/대입함 -> area1라는 id(이 html 문서 내에 유일함)를 가진 div '요소 객체'를 변수 divEl에 담음
+            var divEl = document.getElementById('area1');
+
+            console.log(divEl); // '요소 객체' divEl에 무엇이 담겨있는지 확인하기 위해 console에 찍어봄 -> divEl이 가리키고 있는 것 div(의 content) 출력됨
+            // 선택한 요소 내의 정보들을 알아내고자 한다면 속성들에 .으로 직접 접근해야 함
+
+            // 요소 객체 divEl의 id (속성)값 확인 <- .id
+            /* 방법1)
+            var divId = divE1.id;
+            console.log(divId); // console에 'area1' 출력됨
+               방법2)*/
+            console.log(divEl.id);
+
+            // 요소 객체 divEl의 class 값 확인 <- .className
+            console.log(divEl.className); // console에 'area' 출력됨
+
+            // 단계2a) content 값 가져오기
+            console.log(divEl.innerHTML); // html 태그들 포함 -> '>'는 html 코드(의 일부)가 아닌 일반 텍스트로써 '&gt;'(greater than)으로 출력됨
+            console.log(divEl.innerText); // html 태그들 미 포함
+
+            // 단계2b) content 값 변경해보기 <- 요소 객체 divEl이 가진 innerHTML이라는 속성에 우항의 content를 대입
+            divEl.innerHTML = '<b>innerHTML</b>로 속성 값을 변경함'; // <b> 태그가 html로 인식되는 바, 'innerHTML' 문구가 굵은 글씨로 표시됨
+            console.log(divEl.innerHTML); // 요소 객체의 변경된 content의 html 코드를 console에서 확인해보기
+            divEl.innerText = '<b>innerText</b>로 속성 값을 변경함'; // 대부분의 (주류) 프로그래밍 언어는 위->아래로 실행되므로, 이 행에 의해 요소 객체의 내용이 다시 변경됨; <b> 태그가 일반 텍스트로 인식되고(-> <b> 태그가 안 먹음) divEl이 가리키는 div 내용으로 대입됨
+            console.log(divEl.innerHTML); // 요소 객체의 변경된 content의 html 코드를 console에서 확인해보기
+
+            console.dir(divEl); // 해당 값의 디렉토리 구조(속성들에 대한 정보)를 보고자 할 때 -> divEl이 가진 모든 속성을 console에서 볼 수 있음 e.g. hidden = false(보이니까), onclick = null(이 div에는 onclick 속성 준 적 없음 vs button에 줌)
+            // 위에서 볼 수 있는 모든 속성들에 대해 편집 가능함 e.g. style 편집
+            divEl.style = 'color: greenyellow; font-size: 20px'; // style 속성도 바꿀 수 있음
+        }
+
+        var divEl = document.getElementById('area1'); // div 요소 객체를 변수 divEl에 담음
+        // 16h45 실습 문제: div 클릭 시 '안녕!'이라는 문구를 알림창으로 띄우기
+        // 나의 시도
+        // divEl.onclick = window.alert('안녕!'); // html 문서가 로드될 때 실행됨(페이지 부를 때 쓰는 onload 함수) -> 의도한 것이 아닌 바, 올바른 방법 아님
+        // 강사님 설명
+        divEl.onclick = function() { // 이름 없는 '익명 함수'
+            window.alert('안녕!')
+        }
+    </script>
+
+    <h2>2. 데이터를 입력받는 기본 구문 -> 변수에 대입 가능</h2>
+    <p>
+        1) 변수 = window.confirm('질문 내용');<br>
+        2) 변수 = window.prompt('질문 내용');<br>
+        3) 변수 = 선택한요소.속성(id, className, innerHTML, innerText..); <br>
+        4) 변수 = 선택한input요소.value;
+    </p>
+
+    <h3>1) window.confirm('질문 내용');</h3>
+    <p>
+        - confirm 호출 시 "질문 내용"과 "확인/취소" 버튼이 존재하는 알림창 발생<br>
+        - 확인 버튼 클릭 시 true 값 vs 취소 버튼 클릭 시 false를 반환함
+    </p>
+
+    <button onclick="testConfirm()">클릭</button>
+    <div class="area" id="area2"></div>
+    <script>
+        function testConfirm() {
+            var result = window.confirm("피곤하면 '확인', 아니면 '취소'를 누르세요");
+            console.log(result); // 확인/취소 결과값을 console에서 확인해보기
+
+            var divEl = document.getElementById('area2'); // 요소객체를 divEl 변수에 할당
+
+            // divEl.innerHTML = '<h2>문구 테스트</h2>'; // 요소객체의 innerHTML 속성 값 변경
+
+            if (result) { // 조건식 결과가 true이면
+                divEl.innerHTML = '<h2>피곤해요 ㅠ.ㅠ</h2>';
+            }
+            else { // 아니면 = 조건식 결과가 false이면
+                divEl.innerHTML = '<h2>안 피곤해요 ^.^</h2>';
+            }
+        }
+    </script>
+
+    <!--2021.12.10(금) 10h-->
+    <h3>2) window.prompt('질문 내용');</h3>
+    <p>
+        prompt 호출 시 "질문 내용"과 입력할 수 있는 "텍스트 상자"와 "확인/취소" 버튼이 보여지는 알림창 발생<br>
+        - 확인 버튼 클릭 시 텍스트 상자에 입력되어있는 값 반환<br>
+        - 취소 버튼 클릭 시 null 값을 반환
+    </p>
+
+    <button onclick="testPrompt();">클릭</button>
+    <div class="area" id="area3"></div>
+    <script> // JavaScript 영역
+        function testPrompt() {
+            var name = window.prompt('너의 이름이 무엇이니?'); // 사용자가 입력한 값을 확인해보기 위해 입력한 값을 변수에 담아, 그 변수를 console에 찍어봄; 변수 선언 시 var 사용
+            var address = window.prompt('너 어디에 사니?');
+            // 텍스트 상자에 아무 것도 입력 안 하고 '취소' 버튼 누르면 null 값이 들어감
+
+            console.log(name);
+            console.log(address);
+
+            // 10h25 실습 문제: "xx에 사시는 xxx 님의 방문을 환영합니다 ^^" 형태로 div 요소 내부에 출력
+            var divEl = document.getElementById('area3');
+
+            // if문은 내가 혼자 써 본 것임
+            if (name == null || address == null) {
+                divEl.innerHTML = '정보를 입력 안 해주셨네요~ 다시 클릭해서 입력 부탁드립니다';
+            }
+            else {
+                divEl.innerHTML = '<b>' + address + '에 사시는 ' + name + ' 님의 방문을 환영합니다 ^^</b>';
+                // 나의 의견 = divEl 변수 안 만들고 document.getElementById('area3').innerHTML 이렇게 속성 접근도 가능한 듯  
+            }                     
+        }
+    </script>
+
+    <!--사용자가 입력한 값만큼의 li 요소를 ul에 추가하고자 함-->
+    <button onclick="testPrompt2();">숫자 입력</button>
+    <ul id="ul1"></ul>
+    <script>
+        function testPrompt2() {
+            var num = window.prompt('숫자만 입력해 주세요');
+
+            var str = ''; // <li></li> 형태 재활용을 위해 변수에 담아줌
+            for (var i = 0; i < num; i++) {
+                str += '<li>안녕하세요(' + (i + 1) + '번째)</li>';
+            }
+
+            var ulEl = document.getElementById('ul1');
+            ulEl.innerHTML = str; // 사용자가 입력한 값만큼의 li 요소; <li>1번째 내용</li><li>2번째 내용</li><li>3번째 내용</li><li>4번째 내용</li>..
+
+            /* Java 반복문 for문
+            for (int i = 0; i < num; i++) {
+
+            } */
+
+            /* 나의 시도 -> 의도한 대로 작동 안 함 ㅠ.ㅠ
+            for (var i = 0; i < num; i++) {
+                ulEl.innerHTML = '<li><b>' + i + '번째 출력입니다</b></li>';
+            } */
+        }
+    </script>
+
+    <!--2021.12.10(금) 11h-->
+    <h3>4) 선택한input요소.value;</h3>
+    ID : <input type="text" id="userId"><br>
+    비밀번호 : <input type="password" id="userPwd"><br>
+    <button onclick="testInput();">클릭</button>
+    <script>
+        // JavaScript에서 이벤트를 부여할 요소 선택 = 선행(-> 변수 담기 등)
+        function testInput() {
+            var inputId = document.getElementById('userId'); // 가져온 요소를 재활용하기 위해 변수에 담아줌; 변수 = 하늘색, 문자열 = 갈색
+            var inputPwd = document.getElementById('userPwd');
+
+            // console.dir(inputId); // 이 input 요소(text를 입력받음)가 가지고 있는 속성을 console에서 조회해봄 -> value: ""(value 속성의 값 = 빈 문자열) -> id로 어떤 문자열을 입력 후 console 보면 value 속성 값이 그 문자열로 들어가/바뀌어 있음
+
+            console.log('ID : ' + inputId.value);
+            console.log('비밀번호 : ' + inputPwd.value);
+
+            // 직접 접근이 가능하므로, 값 수정도 가능
+            inputId.value = 'ID 못 써요';
+            console.log('ID : ' + inputId.value);
+        }
+    </script>    
+</body>
+</html>
