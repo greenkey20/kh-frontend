@@ -1,0 +1,166 @@
+<!--2021.12.13(월)-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>평가자 체크 리스트</title>
+    <style>
+        div {
+            /* border: 1px solid green; */
+            box-sizing: border-box;
+        }
+
+        /* 전체 감싸는 div */
+        .wrap {
+            height: 600px;
+            width: 1000px;
+        }
+
+        /* 큰 4등분 div */
+        .wrap>div {
+            width: 100%;
+        }
+
+        #header {
+            height: 100px;
+        }
+
+        #nav {
+            height: 50px;
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #section {
+            height: 400px;
+            background-color: grey;
+        }
+
+        #footer {
+            height: 50px;
+            background-color: #ccc;
+        }
+
+        /* 세부 div */
+        #header>div {
+            height: 100%;
+            float: left;
+        }
+
+        #header_1 {
+            width: 100px;
+            height: 100%;
+        }
+
+        #header_2 {
+            width: 600px;
+            height: 100%;
+        }
+
+        #header_3 {
+            width: 300px;
+            height: 100%;
+        }
+
+        /* header_1 영역 */
+        #logo {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* header_3 영역 */
+        #login_form {
+            width: 100%;
+            height: 100%;
+            float: left;
+        }
+
+        .login_input_label {
+            width: 25%;
+            height: 33%;
+            float: left;
+        }
+
+        .login_input_content {
+            width: 75%;
+            height: 33%;
+            margin-top: 2px;
+            float: left;
+        }
+
+        .login_input_buttons {
+            width: 100%;
+            height: 34%;
+            float: left;
+        }
+
+        /* nav 영역 */
+        #nav>li {
+            float: left;
+            width: 15%;
+            text-align: center;
+            height: 100%;
+        }
+
+        #nav a {
+            text-decoration: none;
+        }
+
+        /* footer 영역 */
+        #copyright {
+            width: 100%;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin: auto;
+            text-align: center;
+        }    
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div id="header">
+            <div id="header_1">
+                <img src="resources/image/kh_logo round.png" alt="logo" id="logo">
+            </div>
+            <div id="header_2"></div>
+            <div id="header_3">
+                <div id="login_form">
+                    <form action="test.do" method="post" id="login_form_input">
+                        <div class="login_input_label">아이디</div> 
+                        <div class="login_input_content"><input type="text" name="userId" required></div>
+                        <div class="login_input_label">패스워드</div>
+                        <div class="login_input_content"><input type="password" name="userPwd" required></div>
+                        <div class="login_inpu_buttons">
+                            <input type="submit" value="로그인">
+                            <input type="reset" value="취소">
+                        </div>    
+                    </form>
+                </div>                
+            </div>
+        </div>
+
+        <div id="nav">
+            <ul id="nav">
+                <li><a href="#">메인</a></li>
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">자유게시판</a></li>
+                <li><a href="#">갤러리</a></li>
+                <li><a href="#">회원관리</a></li>
+                <li><a href="#">채팅하기</a></li>
+            </ul>
+        </div>
+
+        <div id="section">
+        </div>
+
+        <div id="footer">
+            <p id="copyright">
+                Copyright ⓒ 1998-2019 KH Information Educational Institute All Right Reserved
+            </p>
+        </div>
+    </div>    
+</body>
+</html>
