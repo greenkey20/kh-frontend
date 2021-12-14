@@ -1,0 +1,242 @@
+<!--2021.12.10(금) 16h20-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>변수, 자료형</title>
+</head>
+<body>
+    <h1>변수, 자료형</h1>
+    <h2>변수 선언 시, var, let, const를 이용해서 선언 가능</h2> <!--var = variable의 약자; 구닥다리 방식이나, 사용하기 편하긴 함-->
+    <h3>var, let, const 차이점</h3>
+    <h4>1) 변수 선언 방법</h4>
+    <button onclick="defDeclare();">클릭</button>
+
+    <!--2021.12.14(화) 9h35-->
+    <h4>2) scope(사용 가능 범위)</h4>
+    <button onclick="defScope();">클릭</button> <!--Windows 고치다가 필기 제대로 못하고 설명/수업도 제대로 못 들음 ㅠ.ㅠ-->
+
+    <script>
+        // 2021.12.10(금) 16h20
+        function defDeclare() {
+            // 1) var로 변수 선언: 자유롭게 변수 선언 및 사용할 수 있다는 장점이 있음 vs 중복된 변수가 남발될 가능성 높음(변수명이 거기서 거기인 경우가 많음), 의도치 않게 값이 변경되어 있을 수 있음 -> 유지/보수 어려움
+            var userId = 'user01';
+            console.log('var 변수 userId에 저장된 값 : ' + userId); // user01
+
+            // var를 이용하면 변수 중복 선언 가능 -> 편리 vs 의도하지 않은 값이 들어가 있을 수 있음
+            var userId = 'user02';
+            console.log('var 변수 userId에 저장된 값 : ' + userId); // user02
+
+            // userId 변수에 값 재할당 -> 가능
+            userId = 'user03';
+            console.log('var 변수 userId에 저장된 값 : ' + userId); // user03          
+
+            console.log('----------------------------------------------');
+            // var의 단점을 보완하고자 나온 것 = let, const; 수업(+현재 실무/현장)에서는 var 사용할 것이나, 권장 사항은 let, const 위주 사용
+            // 2) let으로 변수 선언
+            let userPwd = 'pass01';
+            console.log('let 변수 userPwd에 저장된 값 : ' + userPwd); // pass01
+
+            // let를 이용하면 변수 중복 선언 불가능
+            /*
+            let userPwd = 'pass02';
+            console.log('let 변수 userPwd에 저장된 값 : ' + userPwd); // 브라우저 개발자 도구에서 오류 "Uncaught SyntaxError(구문 오류): Identifier 'userPwd' has already been declared"
+            */
+
+            // userPwd 변수에 값 재할당 -> 가능
+            userPwd = 'pass03';
+            console.log('let 변수 userPwd에 저장된 값 : ' + userPwd); // pass03 
+
+            console.log('----------------------------------------------');
+            // 3) const로 변수 선언; constant의 약자; '상수' 같은 개념 -> 한 번 초기화된 값 변경 불가
+            const userName = "강판다"; // 꼭 " " 쓸 필요 없고, ' ' 써도 됨 
+            console.log('const 변수 userName에 저장된 값 : ' + userName); // 강판다
+
+            // const를 이용하면 변수 중복 선언 불가능
+            /*
+            const userName = '강미피';
+            console.log('const 변수 userName에 저장된 값 : ' + userName); // Uncaught SyntaxError: Identifier 'userName' has already been declared
+            */
+
+            // userName 변수에 값 재할당 -> 불가능
+            /*
+            userName = '강미피';
+            console.log('const 변수 userName에 저장된 값 : ' + userName); // Uncaught TypeError: Assignment(대입) to constant variable
+            */           
+        }
+
+        // 2021.12.14(화) 9h35
+        function defScope() {
+            // 1) var는 function scope -> 변수가 선언된 '함수 영역' 내에서 사용 가능
+            var name = "강미피"; // var는 변수 선언을 위한 키워드; 어떤 형 자료인지는 들어오는 값을 보고 '타입 추론' cf. Java 11버전부터 var 써서 '타입 추론' 가능
+            // 타입 추론은 부정확할 수도 있고, 어떤 자료형인지 찾으려 연산을 한 번 해야 하는 바 처리 속도가 느려짐
+            var age = 123;
+
+            window.console.log(name); // '대모' window는 생략 가능; name이라는 변수를 찾음
+            console.log('name'); // 'name'이라는 문자
+
+            scopeTest(); // 출력난이 공백 <- name 변수는 defScope()의 범위에 있고, 이 함수 scopeTest()의 범위에는 없음
+
+            if (true) {
+                var age = 20;
+            }
+
+            console.log(age); // 사용 가능 -> JavaScript에서 var는 출력됨 vs Java에서라면 age 변수의 값은 출력될 수 없음
+
+            for (var i = 0; i < 10; i++) {
+
+            }
+
+            console.log(i); // 사용 가능 -> i가 10이 되면 위 for문을 빠져나오고 10이 console에 찍힘
+            console.log('-----------------------------');
+
+            // 2) let, const는 block scope -> 변수가 선언된 블럭 {} 내에서만 사용 가능 cf. Java에서와 동일
+            if (true) {
+                let gender = 'F';
+                const hobby = '피아노 연주';
+            }
+
+            // console.log(gender); // Uncaught ReferenceError: gender is not defined
+            // console.log(hobby); // Uncaught ReferenceError: hobby is not defined
+
+        }
+
+        function scopeTest() {
+            console.log(name); // name 변수는 defScope()의 범위에 있고, 이 함수 scopeTest()의 범위에는 없음
+        }
+
+    </script>
+
+    <!-- <h3>전역/지역 변수</h3> -->
+    <h3>변수 선언 위치에 따른 전역/지역 변수</h3>
+    <pre> <!--내가 쓴 그대로 보여지게 하는 문단 태그 -> script 앞뒤의 꺽쇠 <>를 그대로 인식해서 <script> 태그로 인식됨 -> <script> 태그 내용이 웹페이지에 출력 안 됨-->
+        <!-- <script> -->
+        &lt;script&gt; <!--less than <: 좌항이 우항보다 작니?; greater than >: 좌항이 우항보다 크니?-->
+            var 변수명;
+            변수명;
+            
+            function 함수명() {
+                var 변수명;
+                변수명;
+            }
+        &lt;/script&gt;
+        <!-- </script> -->
+    </pre>
+    
+    <script>
+        // script 태그 전역에서 사용하고자 하는 전역변수들
+        str = '전역변수'; // var 안 붙여도 변수 선언 가능 -> 나의 질문 = var 안 붙이면 let, const가 아닌, var인가?
+        var str2 = 'var전역변수';
+
+        // window.onload: 이/해당 html 문서가 다 로딩되고 나서 곧바로 실행할 함수를 지정하는 구문
+        window.onload = function () { // 어디엔가 대입 시 이름 없는 함수 많이 사용함
+            // 함수 영역에서 사용하고자 하는 function/지역변수들
+            var str = '지역변수'; // 전역변수명과 중복됨
+            var str3 = '새로운 지역변수';
+            str4 = '나는 누구일까요?'; // 지역변수 선언 시 var를 생략할 경우 전역변수로 취급함
+
+            console.log('---str---');
+            console.log(str); // 지역변수명과 전역변수명이 동일한 변수 호출 시, 지역변수 호출 vs 전역변수에 접근하고자 할 경우에는 window.전역변수명 ou this.전역변수명
+            console.log(this.str);
+            console.log(window.str);
+
+            console.log('---str2---');
+            console.log(str2); // str2이라는 이름은 전역변수에만 있는 바, 전역변수 호출 
+            console.log(this.str2); // 전역변수임을 명시적으로 표현해서 헷갈리지 않도록 this나 window 키워드 병기를 권장함
+            console.log(window.str2);
+
+            console.log('---str3---');
+            console.log(str3); // str3이라는 이름은 지역변수에만 있는 바, 지역변수 호출
+            console.log(this.str3); // undefined(정의되어 있지 않음) 출력됨
+            console.log(window.str3); // undefined(정의되어 있지 않음) 출력됨
+
+            console.log('---str4---');
+            console.log(str4);
+            console.log(this.str4); // 전역변수인지 확인해보려면 this나 window 붙여서 찍어보면 됨
+            console.log(window.str4);
+        }
+
+        function test() {
+            console.log('전역변수 총 출동!');
+            console.log(str + ' 또는 ' + window.str + ' 또는 ' + this.str);
+            console.log(str2);
+            console.log(str4); // 다른 function에서 선언한 전역변수를 다른 function에서도 사용 가능함
+        }
+    </script>
+
+    <!--전역변수 test 함수를 출력해주는 버튼이 있는 자리-->
+    <button onclick="test();">전역변수 test</button>
+    
+    <hr>
+    <h3>자료형</h3>
+    <!--Java에서는 '프로젝트>패키지>클래스>변수'로 구분
+        vs JavaScript에서는
+        파일1.js에서 str = a;
+        파일2.js에서 str = b;이면 더 아래쪽에 있는 파일 내용이 우선순위를 가짐-->
+    <p>
+        - 변수 선언 시 자료형을 별도로 지정/명시하지 않음(명시할 방법 없음)<br>
+        - 자료형의 개념이 없는 것은 아니고, 아래와 같이 자료형 있음<br>
+        - 변수에 대입되는 값(literal)에 따라 알아서 자료형이 자동으로 결정됨 = 타입 추론
+    </p>
+
+    <!--2021.12.14(화) 11h-->
+    <h4>JavaScript의 자료형</h4>
+    <ul>
+        <li>string(문자열)</li>
+        <li>number(숫자)</li>
+        <li>boolean(논리값)</li> <!--Java에서는 true/false vs JavaScript에서는 undefined 자료형을 제외한 나머지 자료형들을 논리값으로 바꿀 수 있음-->
+        <li>object(객체)</li>
+        <li>function(함수)</li>
+        <li>undefined(초기화가 안 된 변수)</li>
+    </ul>
+
+    <button onclick="typeTest();">자료형 test</button>
+    <div id="area" style="border: 1px solid green;"></div>
+
+    <script>
+        function typeTest() {
+            var name = '강해피'; // string
+            var age = 4; // number
+            var flag = true; // boolean
+
+            var hobby = ['독서', '음악 감상', '산책']; // 'array(배열)' object
+
+            var user = {
+                name: '강무민',
+                age: 4,
+                id: 'user01'
+            }; // JavaScript의 객체(object)는 (Java의?)hashmap과 비슷하게 생김 -> 나의 질문 = 객체라서 {} 뒤에 ; 쓴 것인가?
+
+            var testFn = function() {
+                alert('함수 자료형 테스트 중입니다');
+            } // function
+
+            var noVal; // undefined
+
+            // 위에 만든 div 영역에 변수들의 값 찍어보기           
+            var divEl = document.getElementById('area'); // 변수 divEl에 요소객체를 담아둠
+
+            divEl.innerHTML = name + '<br>'; // 강해피
+            divEl.innerHTML += age + '<br>'; // 4
+            divEl.innerHTML += flag + '<br>'; // true
+            divEl.innerHTML += hobby + '<br>'; // 배열의 원소들의 값 다 출력됨 -> 영화,음악,낮잠
+            divEl.innerHTML += user + '<br>'; // '[object Object]'로 출력됨 -> 내가 만든(사용자 정의?) 객체인 경우 이렇게 출력됨
+            divEl.innerHTML += testFn + '<br>'; // 함수 정의 내용이 다 출력됨 -> function() { alert('함수 자료형 테스트 중입니다'); }
+            divEl.innerHTML += noVal + '<hr>'; // 'undefined'가 출력됨
+
+            // 자료형 출력 <- 자료형 확인 시 필요한 함수 = typeof(변수명)
+            divEl.innerHTML += typeof(name) + '<br>';
+            divEl.innerHTML += typeof(age) + '<br>';
+            divEl.innerHTML += typeof(flag) + '<br>';
+            divEl.innerHTML += typeof(hobby) + '<br>'; // 배열의 자료형 = object
+            divEl.innerHTML += typeof(user) + '<br>';
+            divEl.innerHTML += typeof(testFn) + '<br>'; 
+            divEl.innerHTML += typeof(noVal) + '<hr>'; 
+
+            /* 2021.12.14(화) 12h20 실습 문제: div의 content 영역에 "xxx의 나이는 x세이며, ID는 xx입니다"를 출력
+               user.name, user.age, user.userId와 같이 .으로 접근 = 객체 내부의 속성에 직접 접근하는 방법*/
+            divEl.innerHTML += user.name + '의 나이는 ' + user.age + '세이며, ID는 ' + user.id + '입니다.';
+        }
+    </script>    
+</body>
+</html>
