@@ -1,0 +1,281 @@
+<!--2021.12.14(화) 12h25-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>문자열, 숫자</title> <!--문자열 및 숫자 자료형에 대해 사용할 수 있는 기능들-->
+    <style>
+        .area {
+            width: 300px;
+            border: 1px solid green;
+        }
+
+        .small {
+            height: 200px;
+        }
+
+        .big {
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <h1>문자열, 숫자</h1> 
+    <h2>문자열 관련 메소드</h2>
+    <button onclick="showStringMethod();">문자열 처리 메소드</button>
+    <div id="area1" class="area big"></div>
+
+    <script>
+        function showStringMethod() { // showStringMethod()는 function(o) method(x)
+            var str1 = 'Hello World!'; // 문자열 값이 들어가 있는 변수 str1 선언
+
+            // 객체 내부에서 존재하는/특정 객체만 사용할 수 있는/의존 관계가 있는 것 = method
+            // 12h35 강사님께서 아래 예시(user가 가지고 있는 a라는 메소드, user의 기능 a) 쓰다가 지우셨는데, 따라서 못 씀 ㅠ.ㅠ
+            /*
+            var user = {
+                a
+            }
+            */
+
+            var area1 = document.getElementById('area1'); // 변수 area1으로 요소객체에 접근 가능
+            area1.innerHTML = '문자열 str1 : ' + str1 + '<br>'; // innerHTML = div 요소가 가지고 있는 속성 중 하나로써, content 영역에 들어갈 값 -> 특정 문자열 내용을 div 영역에 찍어봄
+            // console.log(area1.innerHTML); // div 영역의 내용을 console에 찍어봄
+            area1.innerHTML += '문자열 str1의 길이 : ' + str1.length + '<br>';  
+            // 2021.12.14(화) 14h
+            area1.innerHTML += 'toUpperCase() : ' + str1.toUpperCase() + '<br>';
+            area1.innerHTML += 'toLowerCase() : ' + str1.toLowerCase() + '<br>';
+
+            // Java 문자열/String 클래스의 특징: __(제대로 못 들음)클래스; 문자들이 순서를 가지고 모여있는 형태 -> 문자열 변수명.charAt(0) -> 문자열의 0번째/맨 앞에 있는 글자 추출/접근
+
+            // 실습 문제: str1에 대입되어 있는 문자열을 아래 양식으로 출력
+            // 0번째 인덱스 : h
+            // 1번째 인덱스 :  e
+            // ..
+            // 11번째 인덱스 : !
+            for (var i = 0; i < str1.length; i++) {
+                area1.innerHTML += i + '번째 index의 글자 : ' + str1.charAt(i) + '<br>';
+            }
+
+            area1.innerHTML += '앞에서부터 첫번째 l의 위치/index : ' + str1.indexOf('l') + '<br>'; // 2
+            area1.innerHTML += '뒤에서부터 첫번째 l의 위치/index : ' + str1.lastIndexOf('l') + '<br>'; // 9 = 앞에서부터 세서 매긴, world의 l의 index
+            area1.innerHTML += '앞에서부터 첫번째 a의 위치/index : ' + str1.indexOf('a') + '<br>'; // -1; 찾는/해당 문자가 존재하지 않는 경우에는 -1을 반환함
+
+            area1.innerHTML += 'substring(시작index) : ' + str1.substring(6) + '<br>'; // 문자열 빼기 -> World!
+            area1.innerHTML += 'substring(시작index, 끝index-1) : ' + str1.substring(0, 3) + '<br>'; // Hel
+
+            var str2 = '사과,바나나,복숭아,키위'; // 자료형 = 문자열
+            var fruits = str2.split(','); // 과일 하나하나를 ,(구분자)로 구분해서, 과일 바구니에 담기 -> split() 메소드의 반환형 = 배열/object; ['사과', '바나나', '복숭아', '키위']
+            area1.innerHTML += 'fruits : ' + fruits + '<br>'; // '사과,바나나,복숭아,키위'로 출력됨 -> 보기에는 str2와 같아 보이지만, 아래와 같이 자료형 찍어보면
+            area1.innerHTML += 'fruits의 자료형 : ' + typeof(fruits); // object
+        }
+    </script>
+
+    <hr>
+    <h3>숫자/수학 관련 메소드</h3>
+    <button onclick="showMathMethod();">수학 관련 메소드</button>
+    <div id="area2" class="area small"></div>
+    <script>
+        function showMathMethod() {
+            var area2 = document.getElementById('area2');
+
+            // Java에서 Math는 static 클래스인 바, Math.abs()와 같이 직접 접근해서 메소드 사용
+            // JavaScript도 Math라는 내장 객체 제공됨 -> Math.메소드명()
+            area2.innerHTML = '절대값 : ' + Math.abs(-123) + '<br>';
+            area2.innerHTML += 'random값 : ' + Math.random() + '<br>'; // 0~0.99999.. 값 나옴 -> 10 곱하고 1 더해서(? Java 내용 정확히 기억 안 나고, 강사님 설명 제대로 못 들음 ㅠ.ㅠ) 사용하면 됨(1~10 랜덤 숫자)
+
+            // Java 'while' 클래스 필기 내용
+            // 1부터 random(무작위)한 수(단, 1 ~ 10)까지 모두 더하는 총/누적 합계 -> 반복문의 제어변수 초기값 = 1
+		
+            // Math(수학 관련)라는 클래스의 random() 메소드(무작위 기능) 활용
+            // random() 메소드의 결과 값: 0.0 ~ 0.9999999999999999999999999..(사람이 셀 수는 없겠지만 컴퓨터의 자료형이 허용하는만큼 표현 가능)
+            // 실행할 때마다 다른 값이 나옴; 예측 불가
+            
+            // 표현법: Math.random();
+            // Math 클래스는 자주 사용하기 때문에, String처럼, 아래와 같이 작성할 필요 없음 
+            // Math m = new Math(); // 클래스 별명 지어 사용할 수 있도록 함
+            // m.random();
+            
+            // 단계1) random() 메소드가 잘 작동되는지 호출해보기
+            // double random = Math.random();
+            // System.out.println("random : " + random);
+            
+            // 지수표기법
+            // 0.15 = 1.5*(10^(-1)) = 1.5E-1
+            // 123456789.987654321 = 1.23456789987654321E+8
+            
+            // 단계2) 결과값에 10 곱하면 0.0 ~ 9.9999999.. 난수
+            // -> int형으로 강제형변환하면 0 ~ 9 정수 난수
+            // -> 문제의 조건을 맞추기 위해 +1하  면 1 ~ 10 정수 난수
+            // (int)(Math.random() * 몇 개 랜덤값) + 시작 수; // 시작 수가 2이면 1은 절대 나오지 않음
+            
+            area2.innerHTML += '반올림 : ' + Math.round(123.567) + '<br>';
+            area2.innerHTML += '버림 : ' + Math.floor(123.999) + '<br>';
+            area2.innerHTML += '올림 : ' + Math.ceil(123.111) + '<br>';
+            area2.innerHTML += '제곱근 : ' + Math.sqrt(121) + '<br>';
+        }
+    </script>
+
+    <hr>
+    <h3>다른 자료형끼리의 산술연산</h3>
+    <button onclick="arithmetic();">산술연산</button>
+    <div id="area3" class="area big"></div>
+
+    <script>
+        function arithmetic() {
+            // 덧셈 연산: 숫자형이 문자열형으로 자동 형 변환이 이루어짐
+            var test1 = 7 + 7; // 14
+            var test2 = 7 + '7'; // 77
+            var test3 = '7' + 7; // 77
+            var test4 = '7' + 7 + 7; // 777
+
+            // JavaScript에서 선언한 변수(test1..)를 웹페이지에 출력하고 싶다면 html만으로는 불가능, JavaScript에서 해야 함
+            // html 문서마다 하나씩 자동으로 생성되는 document 객체로부터 'area3'이라는 id를 가진 요소를 가져옴 -> 이 요소의 속성(들)을 사용하고 싶은 바, 이 요소(객체)를 변수 area3에 담음
+            var area3 = document.getElementById('area3');
+            // 변수 선언하지 않고, document.getElementById('area3').innerHTML과 같이 접근도 가능하긴 함
+
+            // 변수 area3에 담은 요소(객체)가 가진 속성 중 innerHTML = <div> </div> 사이의 내용 -> =(대입 연산자) 우항의 값을 여기에 대입함/담음
+            area3.innerHTML = '7 + 7 = ' + test1 + '<br>'; // 14
+            area3.innerHTML += "7 + '7' = " + test2 + '<br>'; // 77
+            area3.innerHTML += "'7' + 7 = " + test3 + '<br>'; // 77
+            area3.innerHTML += "'7' + 7 + 7 = " + test4 + '<hr>'; // 777
+
+            // 덧셈 이외의 산술연산: 문자열이 숫자로 자동 형 변환된 뒤, 산술연산됨; 단, 이 때 문자열이 반드시 숫자로 존재해야 함 vs 숫자가 아닌 문자가 포함될 경우 NaN(Not a Number) 문구가 뜸
+            var test5 = '7.1' - 7;
+            var test6 = '7.2' * 7;
+            var test7 = '7.0' / 7;
+            area3.innerHTML += "'7.1' - 7 = " + test5 + '<br>'; // 0.09999999999999964
+            area3.innerHTML += "'7.2' * 7 = " + test6 + '<br>'; // 50.4
+            area3.innerHTML += "'7.0' / 7 = " + test7 + '<hr>'; // 1            
+            
+            var iNum = 2; // 숫자
+            var sNum = '3'; // 문자
+            var test8 = iNum + sNum // 2 + '3' = 문자열 '23'
+            // 문자열을 숫자로 강제 형 변환
+            // 방법1) 함수 Number(문자열) 사용
+            var test9 = iNum + Number(sNum) // 5
+            // 방법2) parseInt(문자열): int(정수)로 parsing -> 소수점 아래 숫자(들) 버림
+            var test10 = iNum + parseInt(sNum) // 5
+            // 방법3) parseFloat(문자열)
+            var test11 = iNum + parseFloat(sNum) // 5
+
+            area3.innerHTML += 'iNum + sNum = ' + test8 + '<br>'; // 23
+            area3.innerHTML += 'iNum + Number(sNum) = ' + test9 + '<br>'; // 5
+            area3.innerHTML += 'iNum + parseInt(sNum) = ' + test10 + '<br>'; // 5
+            area3.innerHTML += 'iNum + parseFloat(sNum) = ' + test11 + '<hr>'; // 5
+
+            // parseInt vs parseFloat
+            var fNum = '1.234';
+            var test12 = iNum + fNum; // 2 + '1.234' = 문자열 '21.234'
+            var test13 = iNum + Number(fNum) // JavaScript에서 양수, 음수, 정수, 실수 등 모두 number 타입 -> 연산 결과 = 3.234
+            var test14 = iNum + parseInt(fNum) // '1.234' -> 소수점 아래 숫자들 버리고 1로 변환됨
+            var test15 = iNum + parseFloat(fNum) // '1.234' -> 실수 1.234로 변경됨
+
+            area3.innerHTML += 'iNum + fNum = ' + test12 + '<br>'; // 21.234
+            area3.innerHTML += 'iNum + Number(fNum) = ' + test13 + '<br>'; // 3.234
+            area3.innerHTML += 'iNum + parseInt(fNum) = ' + test14 + '<br>'; // 3
+            area3.innerHTML += 'iNum + parseFloat(fNum) = ' + test15 + '<hr>'; // 3.234            
+        }
+    </script>
+
+    <!--2021.12.14(화) 16h25-->
+    <hr>
+    <h3>간단한 실습 문제</h3>
+    <fieldset>
+        <legend>문제1</legend>
+        <h3>input 태그에 값 입력하고 버튼 클릭했을 때 값이 숫자인지 아닌지 출력</h3>
+        <h5>-> 값이 숫자라면 '숫자입니다' vs 숫자가 아니라면 '숫자가 아닙니다'를 alert로 출력</h5>
+        <input type="text" id="q1"> <!--name="quiz" 속성 필요 없음-->
+        <button onclick="answer1();">정답은?!</button>
+    </fieldset>
+
+    <script>
+        function answer1() {
+            var input = document.getElementById('q1').value; // input text 태그에 입력된 값을 변수 'input'에 담음
+            // console.log(typeof(input)); // input text 태그에 입력된 값의 자료형 = string
+
+            // 강사님 방법)
+            // 3, 5, 7, 31.. 양수, 홀수, 정수, 실수, 자연수, 소수..(왜 언급하셨는지 정확히 모르겠음)
+            // input = '123' -> input * 0 = 0 또는 input / input = 1 또는 input = Number(input) 또는 isNaN(Number(input)) = false
+            // cf. isNaN(숫자) -> NaN이라면/숫자가 아니라면 true vs NaN이 아니라면/숫자라면 false
+            // input = '해피' -> input * 0 = NaN 또는 input / input = NaN 또는 isNaN(Number(input)) = true
+            // console.log(input / input);
+
+            if (!isNaN(Number(input))) { // input이 숫자인 경우
+                alert('숫자입니다');
+            }
+            else { // input이 숫자가 아닌 경우
+                alert('숫자가 아닙니다');
+            }
+            
+            // console.log(typeof(parseFloat(input))); // 나의 질문 = '해피'라는 문자열에 대해 parseFloat(강제 형 변환)한 자료형이 왜 number이지?
+
+            // 내가 한 방법) 처음 문제 풀이 시간에는 input 입력된 내용의 innerHTML로 접근(+typeof(), parseFloat() 적용)하다가 구현 못 함 -> 강사님께서 input 입력된 내용의 value 접근 힌트 주셔서 풂
+            // if (parseFloat(inputEl.value)) {
+            //     window.alert('숫자입니다');
+            // }
+            // else if (!parseFloat(inputEl.value)) {
+            //     window.alert('숫자가 아닙니다');
+            // }
+            
+            // 학우님 1분의 아래 방법은 왜 안 되는지 잘 모르겠음..
+            // if (typeof(parseFloat(input)) == 'number') {
+            //     window.alert('숫자입니다');
+            // }
+            // else {
+            //     window.alert('숫자가 아닙니다');
+            // } 
+         }
+
+         function answer2() {
+            var input = document.getElementById('q1').value;
+
+            if (input * 0 == 0) {
+                alert('숫자입니다');
+            }
+            else {
+                alert('숫자가 아닙니다');
+            } 
+         }
+    </script>
+
+    <fieldset>
+        <legend>문제2</legend>
+        <h3>계산기</h3>
+        정수1: <input type="text" id="num1"><br> <!--나는 input type="number"로 했었는데, 강사님께서는 text로 하심-->
+        정수2: <input type="text" id="num2"><br>
+        <label id="result"></label><br> <!--계산 결과를 표시할 공간-->
+        <button onclick="add();">덧셈</button>
+        <button onclick="subtract();">뺄셈</button>
+    </fieldset>
+
+    <script>     
+        function add() {
+            var num1 = document.getElementById('num1').value; // '10'
+            var num2 = document.getElementById('num2').value; // '20'
+
+            // var result = num1 + num2; // 문자열 '1020'
+            // var result = Number(num1) + num2; // 문자열 '1020'
+            var result = Number(num1) + Number(num2); // 숫자 30
+
+            // 단계1) 결과를 넣을 html 태그(label 태그) 가져오기
+            var labelEl = document.getElementById('result');
+            // 단계2) 해당 label 태그의 내부에 결과 값(보여줄 내용) 넣기
+            labelEl.innerHTML = '결과 : ' + result;
+
+            // 나는 alert로 결과 출력하고자 했음 
+            // alert(num1 + num2);
+        }
+
+        function subtract() {
+            var num1 = document.getElementById('num1').value;
+            var num2 = document.getElementById('num2').value;
+
+            document.getElementById('result').innerHTML = '결과 : ' + (num1 - num2);
+
+            // 나는 alert로 결과 출력하고자 했음
+            // alert(int1 - int2);
+        }
+    </script>
+
+</body>
+</html>
