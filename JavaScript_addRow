@@ -1,0 +1,55 @@
+<!--2021.12.16(목) 9h-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>quiz</title>
+    <style>
+        table * {
+            border: 1px solid green;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h3>실습 문제</h3>
+
+    <fieldset>
+        <legend>input 태그에 입력된 값으로 table 생성</legend>
+        <form action="">
+            이름 : <input type="text" id="name"><br>
+            나이 : <input type="text" id="age"><br>
+            성별 : <input type="text" id="gender"><br>
+        </form>
+
+        <button onclick="addRow();">생성</button>
+    
+        <table>
+            <thead>
+                <tr> <!--th/td들을 tr로 묶어줘도 되고 안 묶어줘도 됨-->
+                    <th>이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                </tr>
+            </thead>
+            <tbody id="addRow">
+                <!-- <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </fieldset>
+
+    <script>
+        function addRow() {
+            var name = document.getElementById('name').value;
+            var age = document.getElementById('age').value;
+            var gender = document.getElementById('gender').value;
+
+            document.getElementById('addRow').innerHTML += '<tr><td>' + name + '</td><td>' + age + '</td><td>' + gender + '</td></tr>';
+        }
+    </script>    
+</body>
+</html>
