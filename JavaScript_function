@@ -1,0 +1,238 @@
+<!--2021.12.15(수) 15h15-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>함수</title>
+    <style>
+        .area {
+            width: 500px;
+            height: 100px;
+            background-color: rgb(212, 248, 212);
+            border: 1pt solid green;
+        }
+    </style>
+</head>
+<body>
+    <h1>함수(function) ☆☆☆☆중요</h1>
+    <!--함수 = 내가 정의한 기능
+        함수의 종류
+        1. 선언적 함수: 이름이 있는 함수 -> 이름을 통해 호출해서 실행함
+        2. 익명 함수: 이름이 없는 함수 -> 함수명(을 짓는) 대신, 함수를 변수명에 대입해서(<- 대입연산자 = 사용) 함수 코드를 저장하는 구현 방식-->
+    
+    <h3 onclick="test1();">선언적 함수</h3>
+    <pre>
+        표현법:
+        function 함수명(매개변수, 매개변수, ..) {
+            해당 함수를 호출할 경우 실행할 코드;
+            return 결과값;
+        }
+
+        - 매개변수가 없는 경우 생략 가능
+        - 반환할 결과값이 없는 경우 'return 결과값;' 생략 가능 <!--Java에서도 반환형이 void인 경우 return할 값이 없으므로 return; 생략 가능-->
+        - JavaScript에서는 함수 선언 시 접근제한자, 반환형 표시x            
+    </pre>
+
+    <button onclick="test1();">실행 확인</button>
+    <div id="area1" class="area"></div>
+
+    <script>
+        function test1() {
+            document.getElementById('area1').innerHTML += 'test1() 함수 실행됨<br>';
+            // 선언적 함수는 호출하면 실행됨 -> 한 번 만들어두면 어디서든지 호출하면 실행됨 -> 함수는 1회용이 아님
+        }
+    </script>
+
+    <hr>
+    <h3>익명 함수</h3>
+    <pre>
+        표현법:
+        변수 = function () {
+            소스코드 어쩌고 저쩌고;
+        }
+
+        - 매개변수나 return 생략 가능
+        - 특정 변수나 속성에 대입하는 함수가 필요할 때 주로 사용함 -> 주로 이벤트 핸들러(이벤트를 동작하는 것) 작성 시 사용
+    </pre>
+
+    <button id="btn">실행 확인</button>
+    <div id="area2" class="area"></div>
+
+    <script>
+        var btn = document.getElementById('btn'); // 'btn'이라는 id 값을 가진 버튼 요소객체를 btn이라는 변수명에 담음
+        btn.onclick = function() { // btn이 가진 속성 중 onclick(='버튼이 클릭되면'이라는 이벤트 속성)에 대입되는 function = 이벤트 핸들러 -> 이 함수는 여기에서만, 이 이벤트 발생 시에만(o) 다른 곳에서도(x) 사용 가능
+            document.getElementById('area2').innerHTML += '이벤트 핸들러를 통해 실행됨<br>';
+        }
+    </script>
+
+    <hr>
+    <h2>함수의 매개변수</h2>
+    <!--button[onclick="test3();"]{실행 확인}*8-->
+    <!--문자열, 숫자 등 자료형에 상관없이 매개변수의 갯수만 잘 맞으면 실행되는 데에 문제 없음; 함수 호출 시 전달하는 값 = argument, 인자(o) 매개변수, paremeter(x)-->
+    <button onclick="test3('전달할 값 = I am professional -> 나는 웹개발로 돈을 번다');">문자열</button> <!--매개변수 = 문자열-->
+    <button onclick="test3(24.75);">숫자</button> <!--매개변수 = 숫자-->
+    <button onclick="test3([1, 2, 3]);">배열</button> <!--매개변수 = 배열 -> 1,2,3-->
+    <button onclick="test3(!false);">논리형</button> <!--매개변수 = 논리형 -> true-->
+    <button onclick="test3(prompt('이름을 입력해주세요'));">함수</button> <!--매개변수 = 함수 -> 텍스트 상자에 입력한 값 ou 공란(아무것도 입력 안 하고 확인 버튼 + 취소 버튼)-->
+
+    <!--정의해둔 매개변수의 갯수보다 더 많은 수의 매개변수를 전달하는 것 가능/실행에 문제 없음 -> 단, 초과된 전달값들은 무시됨-->
+    <!--나의 질문 = 매개변수 2개 이상일 때는 변수명들 달라야 하죠? + JavaScript에서 함수의 오버로딩은?-->
+    <button onclick="test3('안녕', '하세요');">문자열 2개</button> <!--안녕-->
+    <button onclick="test3(21, '안녕', '하세요');">숫자1+문자열2</button> <!--21-->
+
+    <!--정의해둔 매개변수의 갯수보다 더 적은 수의 매개변수를 전달하는 것 가능/실행에 문제 없음 -> 단, undefined로 뜸-->
+    <button onclick="test3();">실행 확인</button> <!--undefined-->
+
+    <div id="area3" class="area"></div>
+
+    <script>
+        function test3(value) { // JavaScript는 자료형을 명시해주지 않는 바, 함수의 매개변수(parameter) 제시 시 자료형 지정하지 않음 + var, let 등도 안 적음 -> 변수명만 적음
+            document.getElementById('area3').innerHTML = value; // 함수를 호출한 곳으로부터 매개변수로 전달받은 값을 div 영역 content로 찍어봄
+        }
+    </script>
+
+    <hr>
+    <h3>매개변수 관련 배열</h3>
+    <p>
+        - 함수 호출 시 전달하는 값(인자, argument)은 내부적으로 arguments라는 배열에 담김<br>
+        - arguments: 모든 함수마다 내부적으로 하나씩 존재하는 배열객체; 알아서 생기는 바, 내가 만들 필요 없음
+    </p>
+
+    <button onclick="test4(15, 2, 6, 4, 27, 10, 4, 54, 6, 7, 1, 23, 45, 6);">실행 확인</button>
+    <div id="area4" class="area"></div>
+
+    <script>
+        function test4() { // 이 함수가 매개변수로 받은 값은 없음 -> 매개변수로 받을 값이 너무 많을 때 매개변수 선언+받을 필요 없고, arguments 배열의 값들 이용 가능
+
+            console.log(arguments); // arguments 배열에 있는 값들 확인해 봄 -> Arguments(14) [15, 2, 6, 4, 27, 10, 4, 54, 6, 7, 1, 23, 45, 6, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+            // console.log('arguments 배열 : ' + arguments); // 'arguments 배열 : [object Arguments]'와 같이 출력됨
+            console.log('arguments[0]의 값 : ' + arguments[0]); // 15
+            console.log('arguments[0] 값의 자료형 : ' + typeof(arguments[0])); // number vs button onclick 속성 적용 시 '15'라고 전달한 경우 자료형은 string
+
+            /*
+            arguments[0] = '대입되나요?'; // argument 배열의 원소를 참조/접근해서 값 수정/가공 가능
+            console.log(arguments[0]); // '대입되나요?'로 변경되어 있음
+            */
+
+            // 16h50 실습 문제: 인자로 넘긴 값들(= arguments 배열의 원소들)의 총합과 평균을 구해서 id가 area4인 div 요소의 innerHTML 속성에 대입
+            var sum = 0;
+
+            for (var i in arguments) {
+                sum += arguments[i]; // 처음에 arguments[i]의 자료형이 string인 줄 알고 Number(arguments[i])라고 썼는데, typeof 찍어보니 number임
+            }
+
+            document.getElementById('area4').innerHTML = '총합 : ' + sum + '<br>평균 : ' + (sum / arguments.length);
+        }
+    </script>
+
+    <hr>
+    <h3>매개변수 있는 함수에 this 키워드 전달하기</h3>
+    <!--Java에서 this = 인스턴스화된 객체 자기 자신을 의미 -> JavaScript에서 this = 해당 요소객체 자체, 나 자신-->
+    <button onclick="test5(this);">버튼1</button> <!--HTML/CSS에서 여는~닫는 태그 = 1개의 버튼 요소 -> JavaScript에서는 요소객체(-> 객체의 일종; 객체인데 요소인 것)-->
+    <button onclick="test5(this.innerHTML);" id="abc">버튼2</button> <!--버튼1과의 차이점 = button 태그의 innerHTML 속성의 값이 다름 cf. content는 여는 태그와 닫는 태그 사이의 공간을 부르는 이름-->
+    <input type="button" onclick="test5(this.value);" value="버튼3"> <!--input 태그로 버튼 만들 때 버튼 이름 만들어주려면 value 속성 값 부여-->
+    <button onclick="test5(this.id);" id="btn77">버튼4</button>
+
+    <script>
+        function test5(a) { // test5()는 이름 있는 함수인 바, button onclick 속성에서 호출 -> 해당 버튼 클릭 시 test5() 호출/실행
+            var b = document.getElementById('abc');
+            console.dir(b); // 변수 b에 담긴 요소객체의 속성들을 console에서 조회
+            console.log(a); // 내가 클릭한 버튼 요소객체/객체 자기자신(의 특정 속성 값)이 console에 출력됨
+            // 버튼1: <button onclick="test5(this);">버튼1</button>
+            // 버튼2: 버튼2
+            // 버튼3: 버튼3
+            // 버튼4: btn77
+        }
+    </script>
+
+    <!--2021.12.16(목) 9h30-->
+    <hr>
+    <h3>실습 문제</h3>
+    <fieldset>
+        <legend>input 태그에 입력된 값으로 table 만들기</legend>
+        <form>
+            이름 : <input type="text" id="name"><br>
+            나이 : <input type="text" id="age"><br>
+            성별 : <input type="text" id="gender"><br>
+        </form>            
+
+        <button onclick="addRow();">생성</button> <!--(action 속성 없는) form 태그 내에 button을 위치시키면 버튼 누를 때마다 페이지 새로고침됨-->
+
+        <table border="1">
+            <thead>
+                <tr> <!--th/td들을 tr로 묶어줘도 되고 안 묶어줘도 됨-->
+                    <th>이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                </tr>
+            </thead>
+            <tbody id="addRow"> <!--이 태그의 innerHTML에 tr/행 추가해야 하는 바, 여기에 id 달아줌-->
+                <!-- <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr> -->
+            </tbody>
+        </table>
+    </fieldset>
+
+    <script>
+        function addRow() {
+            var name = document.getElementById('name').value;
+            var age = document.getElementById('age').value;
+            var gender = document.getElementById('gender').value;
+
+            // 나는 'addRow' 요소객체를 변수에 담지 않음(document.getElementById('addRow').innerHTML) vs 강사님께서는 아래와 같이 변수에 담아 사용하심
+            var tbody = document.getElementById('addRow');
+            tbody.innerHTML += '<tr><td>' + name + '</td><td>' + age + '</td><td>' + gender + '</td></tr>';
+        }
+    </script>
+
+    <hr>
+    <h2>함수의 return: 해당 함수를 호출한 곳으로 돌아가는 것</h2>
+    <h3>일반적인 값을 리턴하는 경우</h3>
+    <button onclick="test6();">실행 확인</button>
+    <div id="area6" class="area" onclick="abc();"></div>
+
+    <!--함수 호출 -> 실행 -> 나/해당 함수를 호출한 곳으로 돌아감
+        return문구는 보통 함수 block 끝나기 직전 마지막 줄에 있음 -> otherwise/return문구가 함수 block 중간에 있으면, return문구 아래의 함수 내용을 실행하기 전에 돌아가게 됨-->
+
+    <script>
+        function abc() { // 함수의 작동 원리 설명을 위해 만든 함수
+            alert("안녕하세요!");
+            // return; // 반환해야 할 값이 없는 경우, return문구는 보통 숨겨져 있음 -> return의 의미 = 나를 호출한 곳으로 돌아간다
+        }
+
+        // 1 ~ 100 사이의 랜덤 값을 구해서 '반환'해주는 함수
+        function rand() {
+            return parseInt(Math.random() * 100 + 1); // 'return + 값'의 의미 = 이 함수를 호출한 곳으로 돌아갈 때 parseInt(Math.random() * 100 + 1) 값을 들고 가겠다
+            /* 단계1) Math.random() = 0.0 ~ 0.9999999..
+               단계2) Math.random() * 100 = 0.0 ~ 99.99999.. -> 구하고자 하는 난수의 최대값은 곱해줌
+               단계3) Math.random() * 100 + 1 = 1.0 ~ 100.99999.. -> 구하고자 하는 난수의 최소값은 더해줌
+               단계4) parseInt(Math.random() * 100 + 1) = 1 ~ 100 -> 정수형으로 사용 -> 1 ~ 100 사이의 랜덤 값을 구할 수 있음
+            */
+        }
+
+        function test6() {
+            document.getElementById('area6').innerHTML += '랜덤값 : ' + rand() + ', ';
+        }
+    </script>
+
+    <h3>익명함수를 return하는 경우</h3>
+    이름 : <input type="text" id="userName"> <!--입력된 값 = '아무개'-->
+    <button onclick="test7()();">실행 확인</button> <!--test7()의 반환값으로 받아온 익명함수를 실행하고 싶다면, 그 반환값을 어떤 변수에 대입하거나 이름없는/익명 함수를 ()로 호출-->
+
+    <script>
+        function test7() { // '아무개 님, 환영합니다~'
+            var name = document.getElementById('userName').value;
+            console.log('이름 input 상자에 입력한 값 : ' + name, typeof(name));
+
+            // 아래와 같은 익명함수를 반환/return -> 함수를 들고, 호출한 곳으로 돌아감 -> 익명함수를 반환하는 법을 보여주기 위한 예시; 이렇게 많이 사용하지는 않음
+            return function() {
+                alert(name + ' 님 환영합니다~');
+            }
+        }
+    </script>
+        
+</body>
+</html>
