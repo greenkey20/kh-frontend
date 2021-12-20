@@ -1,0 +1,344 @@
+<!--2021.12.16(목) 11h15-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>객체1</title>
+    <style>
+        .area {
+            background-color: rgb(212, 245, 212);
+            border: 1px solid green;
+        }
+
+        .small {
+            height: 250px;
+        }
+
+        .big {
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <h1>객체1</h1>
+
+    <p>
+        key(속성) + value(속성값) 1쌍으로 저장할 수 있는 구조(=JavaScript에서 __(? 강사님 설명 제대로 못 들음)을 console에 찍어보면 알 수 있는 점)<br>
+        여러 속성을 하나의 변수에 저장할 수 있도록 해주는 데이터 타입/데이터 저장 방식<br><br>
+
+        JavaScript에서의 배열 = Java의 ArrayList와 비슷한 개념<br>
+        JavaScript에서의 객체 = Java의 HashMap과 비슷한 개념; map은 '바구니' 개념 -> index 개념 없음<br><br>
+
+        객체는 중괄호 {}를 사용해서 생성하고, 이 객체에 필요로 하는 속성(property)들을 중괄호 안에 정의함 -> (속성 : 속성값) == (key : value)<br>
+        속성값으로는 모든 자료형의 값을 담을 수 있음
+    </p>
+
+    <pre>
+        표현법:
+        var 변수/객체명 = {
+            속성명 : 속성값,
+            속성명 : 속성값,
+            속성명 : 속성값,
+            ..
+        }
+    </pre>
+
+    <button onclick="test1();">실행 확인</button>
+    <div id="area1" class="area big"></div>
+
+    <script>
+        function test1() {
+            // 배열 = ArrayList 개념 -> 내가 넣은 순서대로, 인덱스 별로, console에 찍힘
+            // '빅파이'라는 상품에 대한 정보가 담긴 배열
+            var arr = ['빅파이', 3850, '간식', ['밀가루', '초콜릿', '딸기잼'], '롯데제과'];
+
+            // 객체 = HashMap 개념 -> 내가 넣은 순서가 보장되지 않음; console에는 ABC 순으로 찍힘
+            // '빅파이'라는 상품에 대한 정보가 담긴 객체
+            var product = {
+                pName : '빅파이',
+                price : 3850,
+                kind : '간식',
+                'material' : ['밀가루', '초콜릿', '딸기잼'], // JavaScript는 자유도가 높은 언어인 바, '속성'명을 문자열로 입력해도 상관 없음
+                company : '롯데제과'
+            }
+
+            console.log(arr); // (5) ['빅파이', 3850, '간식', Array(3), '롯데제과']
+            console.log(product); // {pName: '빅파이', price: 3850, kind: '간식', material: Array(3), company: '롯데제과'}
+            console.log('arr의 타입 : ' + typeof(arr)); // object
+            console.log('product의 타입 : ' + typeof(product)); // object
+
+            var area1 = document.getElementById('area1');
+            // area1.innerHTML += 'arr : ' + arr/*.toString()*/ + '<br>'; // 배열 객체에는 눈에 보이지 않는 toString()이 (되어/붙어)있는 바, 내가 넣은대로 잘 입력됨 -> 빅파이,3850,간식,밀가루,초콜릿,딸기잼,롯데제과
+            // cf. JavaScript에서 toString()은 하나의 속성
+            area1.innerHTML += 'arr : ' + arr.toString() + '<br>';
+            area1.innerHTML += 'product : ' + product + '<hr>'; // [object Object] -> 의미 = object 타입의 object 객체
+
+            // 해당 객체 내부의 각 속성에 접근하는 방법
+            // 방법1) 대괄호 [] 이용 -> 객체명['속성명']; 이 방법을 사용해야 하는 경우들이 있음
+            area1.innerHTML += '<b>방법1) 객체명["속성명"]으로 접근</b><br>';
+            area1.innerHTML += 'product["pName"] : ' + product['pName'] + '<br>';
+            area1.innerHTML += 'product["price"] : ' + product['price'] + '<br>';
+            area1.innerHTML += 'product["kind"] : ' + product['kind'] + '<br>';
+            area1.innerHTML += 'product["material"] : ' + product['material'] + '<br>';
+            area1.innerHTML += 'product["material"][0] : ' + product['material'][0] + '<br>';
+            area1.innerHTML += 'product["material"][1] : ' + product['material'][1] + '<br>';
+            area1.innerHTML += 'product["material"][2] : ' + product['material'][2] + '<br>';
+            area1.innerHTML += 'product["company"] : ' + product['company'] + '<hr>';
+
+            // 방법2) . 이용 -> 객체명.속성명
+            area1.innerHTML += '<b>방법2) 객체명.속성명으로 접근</b><br>';
+            area1.innerHTML += 'product.pName : ' + product.pName + '<br>';
+            area1.innerHTML += 'product.price : ' + product.price + '<br>';
+            area1.innerHTML += 'product.kind : ' + product.kind + '<br>';
+            area1.innerHTML += 'product.material : ' + product.material + '<br>';
+            area1.innerHTML += 'product.material[0] : ' + product.material[0] + '<br>';
+            area1.innerHTML += 'product.material[1] : ' + product.material[1] + '<br>';
+            area1.innerHTML += 'product.material[2] : ' + product.material[2] + '<br>';
+            area1.innerHTML += 'product.company : ' + product.company + '<hr>';
+        }
+    </script>
+
+    <hr>
+    <h3>객체 생성 특이 케이스</h3>
+    <button onclick="test2();">실행 확인</button>
+    <div id="area2" class="area small"></div>
+
+    <script>
+        function test2() {
+            // 속성명 제시 시 공백이나 특수문자가 포함될 경우
+            var user = {
+                'user name' : '강판다',
+                'age!' : 3, // 특수기호는 특별한 의미를 지니고 있을 수 있기 때문에 e.g. ! = not
+            }
+
+            var area2 = document.getElementById('area2');
+            // .으로는 객체 내부의 속성에 접근 불가능
+            /*
+            area2.innerHTML += 'user name : ' + user.'user name' + '<br>'; // . 뒤에 '' 써서 속성명 쓰면 user 객체가 'user name'이라는 문자열을 갖고 있는지 찾으려고 함
+            area2.innerHTML += 'age! : ' + user.age! + '<br>';
+            */
+
+            area2.innerHTML += 'user name : ' + user['user name'] + '<br>';
+            area2.innerHTML += 'age! : ' + user['age!'] + '<br>';
+        }
+    </script>
+
+    <hr>
+    <h3>객체에서의 반복문</h3>
+    <p>
+        객체는 인덱스 개념이 없음 -> 단순for문은 사용 불가능 vs for in문 사용 가능 -> 객체가 가지고 있는 모든 속성들에 대해 순차적으로 접근하고자 할 때 사용
+    </p>
+
+    <button onclick="test3();">실행 확인</button>
+    <div id="area3" class="area small"></div>
+
+    <script>
+        function test3() {
+            var area3 = document.getElementById('area3');
+
+            var arr = ['초록 사과', 21, '빨간 사과'];
+            for (var i in arr) { // in 뒤에 배열 제시 시, 반복문이 돌 때마다 0~마지막 index가 var i에 담김
+                area3.innerHTML += arr[i] + '<br>';
+            }
+
+            var game = {
+                title : 'hearts of iron',
+                price : 11000,
+                language : '영어',
+                supportOS : ['Windows64', 'Mac'],
+                service : true
+            }
+
+            for (var key in game) { // 변수명이 key인 변수는 객체의 속성명을 담음/뽑아옴 -> in 뒤에 객체 제시 시, 반복문이 돌 때마다 해당 객체의 속성명들이 var key(변수명)에 담김
+                // 해당 객체 내부의 각 속성에 접근하는 방법
+                // 방법1) 대괄호 이용(객체명['속성명'])은 가능
+                area3.innerHTML += key + " : " + game[key] + '<br>';
+
+                // 방법2) . 이용(객체명.속성명)은 불가능
+                // area3.innerHTML += key + " : " + game.key + '<br>';
+                // game. key = literally, game 객체가 가지고 있는 'key'라는 속성명에 접근하고자 함 -> 속성명 'key'는 없음 -> 'undefined'로 입력됨
+            }
+        }
+    </script>
+
+    <hr>
+    <h3>객체의 메소드 속성</h3>
+    <p>
+        <!--메소드가 무엇인가? (면접 질문이라고 생각해보고) 정의해보기 -> 학우님들의 의견
+            객체가 가지고 있는 함수/기능
+            누군가의 함수 = 메소드
+            호출해서 사용하는 함수
+            객체의 속성들을 변화시키는 기능(나의 의견)
+            클래스 안의 함수
+            클래스 안에 속해있는 기능 등
+            + Java(Script) 객체, 메소드 등 개념, 차이점 등을 머리 속에 잘 정리/구분해두기 -> 명확하게 답변/설명 가능-->
+        JavaScript에서의 메소드 = 객체의 속성 중 함수 자료형인 속성 -> 객체에 의존적인..(2021.12.17(금) 9h15 강사님 설명 녹음 다시 들어보기)
+    </p>
+
+    <button onclick="test4();">실행 확인</button>
+    <div id="area4" class="area small"></div>
+
+    <!--2021.12.16(목) 14h-->
+    <script>
+        function test4() {
+
+            var area4 = document.getElementById('area4');
+
+            var name = '강은영';
+
+            // 강아지 객체 생성
+            var dog = {
+                name : '멍멍이',
+                kind : '삽살개',
+                eat : function(food) { // 이 경우 속성명이 function의 이름이 되므로, 익명함수로 작성하면 됨
+                    area4.innerHTML += 'eat() 메소드가 호출됨<br>';
+                    area4.innerHTML += 'food : ' + food + '<br>';
+
+                    // area4.innerHTML += kind + ' 종류인 ' + name + '가 ' + food + '를 먹고 있어요~<br>';
+                    // 같은 객체 내의 속성을 메소드 속성 내에 호출할 경우 this.를 앞에 붙임 vs this. 안 붙이면 Uncaught ReferenceError: kind is not defined
+                   
+                    area4.innerHTML += this.kind + ' 종류인 ' + name + '가 ' + food + '를 먹고 있어요~<br>';
+                    // 만약 객체의 속성명과 변수명이 동일한 경우에 this.를 안 붙이면 변수가 호출됨 -> 삽살개 종류인 강은영가 고구마를 먹고 있어요~
+                    
+                    // 의도한대로 출력하려면 아래와 같이 작성해야 함 -> 나 자신(의)/메소드에게 있는 것 중에 name을 찾음
+                    area4.innerHTML += this.kind + ' 종류인 ' + this.name + '가 ' + food + '를 먹고 있어요~<br>';
+                }
+            }
+
+            dog.eat('고구마');
+        }
+    </script>
+
+    <hr>
+    <h3>in, with</h3>
+    <p>
+        in: 객체 내에 해당 속성이 있는지 확인해주는 키워드<br>
+        with: 코드를 줄여주는 키워드 <!--특히 객체명이 긴 경우 등; 활용 빈도가 높지는 않음-->
+    </p>
+
+    <!--학생의 정보(가정)-->
+    이름 : <input type="text" id="name"><br>
+    국어 : <input type="number" id="kor"><br>
+    수학 : <input type="number" id="math"><br>
+    영어 : <input type="number" id="eng"><br>
+
+    <button onclick="test5();">실행 확인</button>
+    <div id="area5" class="area big"></div>
+
+    <script>
+        function test5() {
+            // 요소객체 가져오기 + 변수에 담음 -> 이 값들로 객체 생성하고자 함
+            var name = document.getElementById('name').value;
+            var kor = Number(document.getElementById('kor').value); // number 타입 input 태그 value의 자료형 = string
+            // console.log(typeof(document.getElementById('kor').value)); // string
+            var math = Number(document.getElementById('math').value);
+            var eng = Number(document.getElementById('eng').value);
+
+            var student = {
+                name : name,
+                kor : kor,
+                math : math,
+                eng : eng,
+                getSum : function() {
+                    return (this.kor + this.math + this.eng); // 내 꺼/객체 자기 자신에서 찾아야 하므로 this. 키워드 사용; 여기서 Number(this.kor)와 같이 형 변환 가능
+                },
+                getAvg : function() {
+                    return this.getSum() / 3;
+                },
+                toString : function() {
+                    return this.name + ', ' + this.kor + ', ' + this.math + ', ' + this.eng;
+                }
+            }
+
+            // student 객체 만든 내용 확인하기 위해서 내가 써본 코드
+            // area5.innerHTML += name + ' 학생의 평균 점수는 ' + student.getAvg() + '점입니다<br>'; // 강토미 학생의 평균 점수는 94.33333333333333점입니다
+
+            // 객체가 가진 모든 속성을 보고 싶다면 console에 찍어보면 됨 -> 객체의 원형 = console의 Prototype; 부모클래스들 나열; 객체가 상속받은 것들 -> toString(속성명) : 함수(f)
+            // console.dir(student);
+
+            var area5 = document.getElementById('area5');
+
+            // JavaScript에서 toString()은 하나의 속성 + 내가 문자열로 출력하고 싶은 형식 지정 + 눈에 보이지는 않지만 붙어있음
+            area5.innerHTML += 'student 객체 : ' + student/*.toString()*/ + '<hr>'; // toString() 속성을 별도로 정의하지 않으면/by default 내가 만든 객체를 html에 찍은 경우 [object Object]로 출력됨 vs toString() 속성 수정하면 내가 지정한대로 '스노크메이든, 91, 92, 98' 출력됨
+
+            // 해당 객체에 해당 속성이 존재하나? = '속성명' in 객체명 -> 있으면 true vs 없으면 false
+            area5.innerHTML += 'student 객체에 name 속성이 존재하는가? : ' + ('name' in student) + '<br>'; // true
+            area5.innerHTML += 'student 객체에 kor 속성이 존재하는가? : ' + ('kor' in student) + '<br>'; // true
+            area5.innerHTML += 'student 객체에 math 속성이 존재하는가? : ' + ('math' in student) + '<br>'; // true
+            area5.innerHTML += 'student 객체에 eng 속성이 존재하는가? : ' + ('eng' in student) + '<br>'; // true
+            area5.innerHTML += 'student 객체에 test 속성이 존재하는가? : ' + ('test' in student) + '<hr>'; // false
+
+            area5.innerHTML += 'student.name : ' + student.name + '<br>';
+            area5.innerHTML += 'student.kor : ' + student.kor + '<hr>';
+            // 해당 객체의 속성에 반복적으로 접근하고 싶은 경우 with(객체명) {속성명으로만 접근}
+            with(student) { // 객체 이름을 앞에 빼두었기 때문에 아래에서는 속성명으로만 접근 가능
+                area5.innerHTML += '학생 이름 : ' + name + '<br>';
+                area5.innerHTML += '국어 점수 : ' + kor + '<br>';
+                area5.innerHTML += '수학 점수 : ' + math + '<br>';
+                area5.innerHTML += '영어 점수 : ' + eng + '<br>';
+
+                area5.innerHTML += 'toString() : ' + toString() + '<br>'; // 강혁, 89, 88, 86
+                area5.innerHTML += '총점 : ' + getSum() + '<br>';
+                area5.innerHTML += '평균 : ' + getAvg() + '<br>';
+            }
+        }
+    </script>
+
+    <hr>
+    <h3>객체의 속성 추가 및 제거</h3>
+    <button onclick="test6();">실행 확인</button>
+    <div id="area6" class="area small"></div>
+
+    <!--아래 예시에서는 with 사용하면 객체 속성 추가/제거 불가능하기 때문에 안 됨 -> with 키워드 활용도 높지 않음-->
+    <script>
+        function test6() {
+            // 빈 배열 생성
+            var arr = []; // 또는 = new Array();
+
+            // 빈 객체 생성
+            var student = {};
+
+            // 객체에 속성 추가
+            student.name = '곰돌이'; // student.name = 
+            student.hobby = ['독서', '춤'];
+            student.dream = '발레 무대에 서기';
+            student.age = 5;
+
+            // 주의사항 = 속성명이 중복된다면 뒤에 나오는 속성 값으로 덮어씌워짐(o) 같은 속성명에 값 더해짐(x)
+            // cf. Map에서도 key는 중복 불가능 vs value는 중복 가능
+            student.dream = '소설 써서 책 내기';
+
+            console.log(student); // {name: '곰돌이', hobby: Array(2), dream: '발레 무대에 서기', age: 5} -> {name: '곰돌이', hobby: Array(2), dream: '소설 써서 책 내기', age: 5}
+
+            // with 키워드를 쓰면 속성 추가 불가능 -> with는 속성 값을 가져오는 용도로만 사용 가능
+            with(student) {
+                address = '서울';
+                email = 'gomdollala@naver.com';
+            }
+
+            console.log(student);
+
+            // 메소드 속성 추가
+            student.toString = function() {
+                return 'name : ' + this.name + '<br>'
+                     + 'hobby : ' + this.hobby + '<br>'
+                     + 'dream : ' + this.dream + '<br>'
+                     + 'age : ' + this.age + '<br>';                
+            }
+
+            document.getElementById('area6').innerHTML += student/*.toString()*/;
+            // toString() 메소드가 내부적으로 호출됨
+            // toString() 메소드를 만들기 전에는 [object Object]로 출력됨
+
+            // 2021.12.16(목) 16h
+            // JavaScript는 다재다능한 언어 -> 객체지향, 함수형, 절차지향 등 구현 가능; 객체지향 가능하나 prototype 이용해서 구현해야 함(vs Java는 클래스 기반 언어인 바, 클래스로 객체지향 구현).. 함수형에 더 적합(? 강사님 설명 제대로 못 들음)
+
+            // 객체의 속성 제거
+            // delete(객체명.속성명): 객체의 속성을 제거할 수 있는 함수
+            delete(student.hobby);
+            document.getElementById('area6').innerHTML += student/*.toString()*/; // 2번째 행 = 'hobby : undefined' <- 내가 정의한 toString()에 따라 'hobby : '는 문자열이 출력된 것 + student의 hobby 속성(key 및 value)은 삭제됨
+            console.log(student);
+        }
+    </script>    
+</body>
+</html>
