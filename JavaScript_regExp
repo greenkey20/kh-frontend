@@ -1,0 +1,113 @@
+<!--2021.12.21(화) 실습 11h20 + 강사님 해설 12h15-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>정규표현식 이용_회원 가입 form</title>
+    <style>
+        /* 강사님 스타일 제대로 못 따라 적음 */
+        label {
+            font-size: 10px;
+            color: rgb(99, 180, 99);
+        }
+    </style>
+</head>
+<body>
+    <!--2021.12.31(금) JavaScript, jQuery(+html,css) 평가 시 이 정도 양식은 만들 수 있어야 함; 지난 frontend 평가 같이 웹페이지 구조 잡기는 x; JavaScript는 브라우저에서 작동하는 바, html, css 기본적으로 알아야 활용 가능함-->
+    <form action="insert.me">
+        * ID : <input type="text" name="userId" id="userId" required><br>
+        <label for="">첫 글자는 반드시 영문 소문자로, 그리고 영문 소문자, 숫자를 포함해서 총 4-12로 입력하세요</label><br><br>
+
+        * 비밀번호 : <input type="password" name="userPwd" id="userPwd" required><br>
+        <label for="">영문자, 숫자, 특수문자(!@#%^)로 총 8~15자로 입력하세요</label><br><br>
+
+        * 비밀번호 확인 : <input type="password" id="checkPwd" required><br>
+        <label for="">위의 비밀번호와 일치하게 입력하세요</label><br><br>
+
+        * 이름 : <input type="text" id="name" name="name" required><br>
+        <label for="">한글로만 이루어져야 하며 2글자 이상으로 입력하세요</label><br><br>
+
+        이메일 : <input type="email" name="email" id="email"><br>
+        <label for="">이메일 형식에 맞춰서 입력하세요</label><br><br>
+
+        취미 : <input type="text" name="hobby" id="hobby" placeholder="독서, 피아노, 그림, 산책 등" list="hobbylist">
+        <datalist id="hobbylist">
+            <option value="read">독서</option>
+            <option value="piano">피아노</option>
+            <option value="paint">그림</option>
+            <option value="walk">산책</option>
+        </datalist>
+        <br><br>
+
+        거주지 :
+        <select name="address" id="address">
+            <option value="seoul" selected>서울</option>
+            <option value="stockholm">스톡홀름</option>
+            <option value="london">런던</option>
+            <option value="berlin">베를린</option>
+            <option value="others">기타</option>
+        </select><br><br>
+
+        <input type="submit" value="회원 가입" onclick="return validate();"> <!--'회원 가입' 버튼을 누르는 순간 함수 호출해서 유효성 검사 실행; false일 경우 못 넘어가게 하기 위해 return 기재-->
+        <input type="reset" value="취소">
+    </form>
+
+    <script>
+        function validate() {
+            // 유효성 검사 대상 = id, 비밀번호, 비밀번호 확인, 이름
+            // input 요소객체 받아오기
+            var userId = document.getElementById('userId');
+            var userPwd = document.getElementById('userPwd');
+            var checkPwd = document.getElementById('checkPwd');
+            var name = document.getElementById('name');
+
+            // ID 형식 유효성 검사: 첫 글자는 반드시 영문자 + 영문자나 숫자 총 4-12로 입력            
+            var regExp = /^[a-z][a-z\d]{3,11}$/; // 강사님 방식            
+            // var regExp1 = /^[a-z]([a-z\d]{3,11})$/; // 나의 시도
+
+            if (!regExp.test(userId.value)) {
+                alert('잘못된 형식의 ID입니다. 다시 입력해주세요~');
+                userId.select();
+                return false; // 나는 이 return 용도를 잘 이해 못 했어서 빼먹고 풀었었음..
+            }
+
+            // 비밀번호 형식 유효성 검사: 영문자, 숫자, 특수문자(!@#%^)로 총 8~15자로 입력
+            regExp = /^[a-z\d!@#$%^]{8,15}$/i; // 강사님 방식; i로 대/소문자 상관 없이 검사
+            // var regExp2 = /^[a-zA-Z\d!@#$%^]{8,15}$/; // 나의 시도; 나의 질문 = var regExp2와 같이 정규표현식 변수 새로 안 만들고, regExp 변수를 계속 (덮어?)쓰는 이유가 따로 있을까?
+
+            // 나의 질문 = 대문자, 숫자, 특수문자 최소 1개씩 필수 포함시키려면 어떻게 써야 할까?
+            var regExp2 = /^(.[A-Z])(.\d)(.[!@#$%^])[a-zA-Z\d!@#%^]{8,15}$/; // 나의 시도
+            /* 인터넷 검색
+            http://daplus.net/javascript-%EC%95%94%ED%98%B8%EC%97%90-%EB%8C%80%ED%95%9C-%EC%A0%95%EA%B7%9C%EC%8B%9D%EC%9D%80-8-%EC%9E%90-%EC%9D%B4%EC%83%81-%ED%95%98%EB%82%98-%EC%9D%B4%EC%83%81%EC%9D%98-%EC%88%AB%EC%9E%90/
+            최소 8자 및 최대 10자, 하나 이상의 대문자, 하나의 소문자, 하나의 숫자 및 하나의 특수 문자
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/
+            */
+
+            if (!regExp.test(userPwd.value)) {
+                alert('잘못된 형식의 비밀번호입니다. 다시 입력해주세요~');
+                userPwd.select();
+                return false; // 나는 이 return 빼먹고 풀었었음..
+            }
+
+            // 비밀번호 확인/일치 검사
+            if (userPwd.value != checkPwd.value) {
+                alert('비밀번호가 일치하지 않습니다. 다시 입력해주세요~');
+                checkPwd.select();
+                return false; // 나는 이 return 빼먹고 풀었었음..
+            }
+
+            // 이름 형식 유효성 검사
+            regExp = /^[가-힣]{2,}$/;
+
+            if (!regExp.test(name.value)) {
+                alert('잘못된 형식의 이름입니다. 다시 입력해주세요~');
+                name.select();
+                return false; // 나는 이 return 빼먹고 풀었었음..
+            }
+
+            return true; // 나는 이 return 빼먹고 풀었었음..
+        }
+    </script>
+
+</body>
+</html>
