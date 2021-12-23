@@ -1,0 +1,119 @@
+<!--2021.12.23(목) 14h20-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>실습 문제</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <fieldset>
+        <legend>실습 문제1</legend>
+        <!--서버에 뭔가 요청할 때 form 태그 사용-->
+        <h3>input 태그에 값 입력하고 버튼 클릭했을 때, 값이 숫자인지 아닌지 출력</h3>
+        <h5>값이 숫자이면 '숫자입니다' vs 숫자가 아니면 '숫자가 아닙니다'를 alert로 출력</h5>
+        <input type="text" id="q1_num"> <button onclick="answer1();">판별</button>
+    </fieldset>
+    <br>
+
+    <script>
+        function answer1() {
+            var num1 = $('#q1_num').val(); // jQuery에서는 value 관련해서는 val() 메소드 사용
+            console.log(num1, typeof(num1));
+
+            // 나의 풀이1)
+            /*
+            if (num1 / num1 == 1) {
+                alert('숫자입니다');
+            }
+            else {
+                alert('숫자가 아닙니다'); // 문제점 = num1이 0일 때 숫자가 아니라고 함
+            }
+            */
+
+            // 나의 풀이2)
+            /*
+            if (num1 * 0 != 0) { 
+                alert('숫자가 아닙니다');
+            }
+            else {
+                alert('숫자입니다');  // 문제점 = num1이 공백이거나 ' '일 때 숫자가 아니라고 함
+            }
+            */
+
+            // 강사님의 방식(필기 다 못함)
+            // JavaScript에서는 모든 값이 true/false로 사용될 수 있음 + false 같은 값(아래 6가지)이 아니면 true
+            // 0, false, null, undefined, ..(총 6가지)이 boolean형으로 사용될 때 false 값을 가짐            
+            if ((num1 == false && num1 != 0) || isNaN(num1)) { // 숫자가 아닌 것들 먼저 거름
+                alert('숫자가 아닙니다');
+            }
+            else {
+                alert('숫자입니다');
+            }
+        }
+    </script>  
+    
+    <!--2021.12.23(목) 15h-->
+    <fieldset>
+        <legend>실습 문제2</legend>
+        <h3>1~20 사이의 랜덤한 숫자 생성해서 input 태그 안에 입력</h3>
+        랜덤 : <input type="text" readonly id="q2_num"> <!--이 텍스트상자에는 사용자가 값 직접 입력할 일 없으니까 readonly(읽기 전용) 속성 부여 -> 이 input 태그는 읽기 전용이 되어 사용자가 입력 불가능; 속성명과 속성 값이 동일한 경우(readonly="readonly") 속성명만 기재하면 됨-->
+        <button onclick="answer2();">생성</button>
+    </fieldset>
+    <br>
+
+    <script>
+        function answer2() {
+            $('#q2_num').val(parseInt(Math.random()*20+1));
+        }
+    </script>
+
+    <!--2021.12.23(목) 15h30-->
+    <fieldset>
+        <legend>실습 문제3</legend> <!--난이도 上, JavaScript 속성..-->
+        <h3>전체선택 버튼을 클릭하면 체크 항목을 모두 체크하거나 모두 해제</h3>
+
+        <!--내가 푼 방법-->
+        <!--<input type="checkbox" name="subject" value="all" id="all">전체 선택<br> -->
+
+        <!--강사님 방식-->
+        <input type="checkbox" name="all" onclick="answer3(this.checked);">전체 선택<br> <!--this -> 함수의 인자로 나 자신(객체나 속성)을 넘길 수 있음-->
+        <input type="checkbox" name="subject" value="java">Java<br> <!--나의 생각 = 값 넘길 것 아닌 바, value 속성 굳이 필요 없는 듯-->
+        <input type="checkbox" name="subject" value="database">DataBase<br>
+        <input type="checkbox" name="subject" value="web">Web        
+    </fieldset>
+
+    <script>
+        $('#all').click(function() {
+            // 내가 푼 방법 -> 전체선택 버튼 체크/해제할 때만 조작 가능 vs 다른 선택지 체크하면 전체 선택/해제 동작 잘 안 됨
+            if (this.checked) {
+                $(':checkbox').attr('checked', true);
+            }
+            else {
+                $(':checkbox').attr('checked', false);
+            }            
+        });
+
+        function answer3(ch) {
+            // 확인용 console에 찍어보기
+            // console.dir($('input[name=all]')); // 선택자 $('input[name=all]')의 반환형 = 1칸짜리 배열; S.fn.init(1) -> 인덱스를 지정해주어야 속성 접근 가능
+            // console.log($('input[name=all]')[0].checked);
+
+            console.log(ch); // '전체 선택' 체크박스를 체크하면 true가 옴 vs 해제하면 false가 옴
+
+            if (ch) {
+                // $('fieldset').children('input[name=subject]').attr('checked', true);   
+                // attr() 메소드는 구닥다리라서, checkbox 타입의 checked 속성(true/false)을 잘 못 읽음/인식(? 제대로 이해한 것인지 모르겠음 16h20) -> attr()에서 checked 속성이 undefined라고 뜸
+                // if(name 속성 값이 subject인 요소들 중에서 현재 체크된 요소들은 체크 상태 유지 + 체크 안 되어있는 요소들은 체크)와 같은 추가적인 조건문을 써야 의도에 더 맞는 프로그램 만들 수 있음
+
+                // prop() 메소드: 속성 값을 가져오거나 추가해주는 메소드
+                $('input[name=subject]').prop('checked', true);
+            }
+            else {
+                // $('fieldset').children('input[name=subject]').attr('checked', false);
+                $('input[name=subject]').prop('checked', false);
+            }
+        }        
+    </script>
+</body>
+</html>
