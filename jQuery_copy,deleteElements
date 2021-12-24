@@ -1,0 +1,76 @@
+<!--2021.12.24(금) 14h-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>실습 문제</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        /* 가운데 정렬 등 강사님 스타일 정보 제대로 필기/참조 못 함*/
+        body {
+            background-color: rgb(205, 248, 205);
+            color: mediumseagreen;
+        }
+
+        .item {
+            background-color: palegreen;
+            width: 150px;
+            height: 50px;
+            border: 2px dotted seagreen;
+            color: forestgreen;
+        }
+    </style>
+</head>
+<body>
+    <h3>응용 문제</h3>
+    <h5>1. 복제 버튼 클릭 시, 현재 버튼의 부모 요소인 div를 복제시켜서 'result' div에 붙여넣기</h5>
+    <h5>2. 삭제 버튼 클릭 시, 현재 버튼의 부모 요소인 div를 삭제시키기</h5>
+
+    <!--복제할 요소 -> 이 객체들(div 및 버튼들)을 가지고 계속 사용(복제 등)할 것이므로, id(문서에 딱 1개만 존재)보다는 클래스 속성 부여해서 사용하는 것이 좋을 것임-->
+    <!--확고한 기준이 되어야 하는 중요한 + 유일하게 식별되어야 하는 요소(e.g. 큰 분류 div 등)에(만) id 부여 vs 비슷한 하위 요소들을 묶어서 사용(e.g. 동일한 이벤트나 속성 부여 등)하기 위해 여러 개의 클래스명을 부여-->
+    <!--하위 요소들의 경우, id보다는 클래스명 지어서 사용-->
+    <div id="test" class="item"> 나는 부모 div입니다
+        <!-- <span>나는 부모 div입니다</span><br> 강사님께서는 이 문장을 span에 넣지는 않으심-->
+        <button class="copy">복제</button> <!--나는 버튼에 id 속성 부여했었음 vs 강사님께서는 클래스명으로 사용하심-->
+        <button class="delete">삭제</button>
+    </div>
+    <hr>
+
+    <!--붙여넣을 공간-->
+    <div id="result">
+    
+    </div>
+
+    <script>
+        $(function() {
+            // 복제
+            $('.copy').click(function() {
+                // 내가 한 방식
+                // $(this).parent().clone(true).appendTo('#result');
+
+                // 강사님 설명
+                // 단계1) this = 현재 나 자신 요소객체 선택 -> (this).parent() = 버튼의 부모 요소 선택 -> 이렇게 선택된 요소의 이벤트까지(그래야 복제된 div에서 버튼 동작하니까) 복제
+                var copy = $(this).parent().clone(true);
+                // 단계2) 복제한 것을 result 공간에 붙여넣기/대입
+                $('#result').append(copy);
+
+                // 나의 생각 = div 복제 시 'x번째' 표시하고 싶다 >.<
+            })
+
+            $('.delete').click(function() {
+                // this = 나 자신 삭제 버튼 선택
+
+                // empty(): 선택된 요소의 모든 후손 요소들을 제거
+                // $(this).empty(); // 버튼에 쓴 글씨 '삭제'가 제거됨
+                // $(this).parent().empty(); // '#test' div 내의 모든 요소들이 제거됨
+                // $(this).parent().parent().empty(); // '#result' 공간 내의 복제품인 경우 (this).parent().parent() = '#result' div -> 모든 복제품이 제거됨
+                                                   // '#test' 공간 내의 복제품인 경우 (this).parent().parent() = 이 html 문서의 body -> body 내의 모든 요소들이 제거됨
+                                                   // 이에 따라 empty()는 이 문제에서 사용하면 안 됨
+                
+                $(this).parent().remove(); // .detach() 사용해도 무방함
+            })
+        })        
+    </script>
+    
+</body>
+</html>
