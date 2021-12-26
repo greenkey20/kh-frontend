@@ -1,0 +1,119 @@
+<!--2021.12.21(화) 16h45-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>기본 선택자</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h1>기본 선택자</h1>
+    <!--JavaScript에서 id/태그/클래스 선택자; 시작 부분 필기 제대로 못 한 듯?-->
+
+    <h3>id 선택자</h3>
+    <p>
+        특정 고유한 id(문서 내에 id는 중복x/하나만 있음) 속성 값을 가진 요소 단 하나만을 선택하고자 할 때 사용
+    </p>
+
+    <h1 id="id1">ID1</h1>
+    <h2 id="id2">ID2</h2>
+
+    <script>
+        $(document).ready(function() { // 이 창에서 문서가 읽히면/로드되면 = window.onload
+            // 순수 JavaScript: document.getElementById('id명') -> 선택한 요소객체의 속성에 접근해서 대입을 통해 값 변경
+            var id1 = document.getElementById('id1');
+
+            id1.style.color = 'green';
+            id1.innerHTML = 'hej :D'; // 태그의 내용물/content = innerHTML/Text
+
+            // jQuery 방식: $('#id명') -> 선택된 요소객체에 메소드를 활용해서 값 변경
+            $('#id2').css('color', 'lightgreen'); // .css(): css style 관련 메소드(?설명 제대로 못 들음 17h15)
+            $('#id2').html('jag tycker om du'); // .html(): innerHTML과 관련된 기능을 수행하는 메소드
+        })
+    </script>
+
+    <hr>
+    <h3>태그 선택자</h3>
+    <p>
+        해당 태그 요소를 전부 다 가져오고자 할 때 사용
+    </p>
+
+    <p>Java</p>
+    <p>Oracle</p>
+    <p>JDBC</p>
+
+    <h5>html</h5>
+    <h5>css</h5>
+    <h5>JavaScript</h5>
+
+    <script>
+        jQuery(document).ready(function() {
+            // 순수 JavaScript 방식: document.getElementsByTagName('태그명') -> 요소객체들이 배열 형태로 담김; 배열에는 style 속성이 없는 바, pArr.style.color와 같이 속성 접근해서 값 변경/적용할 수 없음
+            var pArr = document.getElementsByTagName('p'); // [p, p, p, ..]
+            for (var i = 0; i < pArr.length; i++) { // 여기서 for in문 사용할 경우, 아래 jQuery문의 $ 인식을 못해서 jQuery 방식으로 부여한 속성 적용이 안 될 것임 -> 일반 for문 사용하기
+                pArr[i].style.color = 'forestgreen';
+            }
+
+            // jQuery 방식: $('태그명')
+            $('h5').css('color', 'yellowgreen');
+
+            $('p, h5, #id1').css('background', 'lightgreen');
+        })
+    </script>
+
+    <hr>
+    <h3>클래스 선택자</h3>
+    <p>
+        특정 클래스 속성 값을 가진 요소들을 선택하고자 할 때 사용
+    </p>
+
+    <h3 class="item">class1</h3>
+    <h3 class="item select">class2</h3>
+    <h3 class="item select">class3</h3>
+
+    <!--2021.12.22(수) 9h20-->
+    <script>
+        $(function() { // html 문서가 다 읽어지면 실행되는 함수
+            // 대상 = 클래스 속성 값이 item인 요소의 글자색 변경 + 클릭 시 경고창 띄우기
+
+            // 순수 JavaScript 방식: document.getElementsByClassName('클래스명') 
+            var items = document.getElementsByClassName('item'); // 'item' 클래스 속성 값 가진 태그들이 객체로 담겨서 옴
+            for(var i = 0; i < items.length; i++) {
+                items[i].style.color = 'olive';
+                /* 나의 시도 = 익명함수를 안 쓰고 이렇게 onclick 속성 구현하려고 하면, 브라우저 창이 로드되면서 alert 창이 뜸
+                items[i].onclick = alert('have a lovely day~'); // 우항에서 함수 호출 -> 경고창 띄움 -> 이 함수의 반환형/값(null 등 무엇인가)이 좌항에 대입하는 것 vs 이벤트가 일어났을 때 실행하고자 하는 구문(event handler 익명함수)가 필요함
+                
+                // 반복문이 잘/어떻게 돌아가는지 보려고 찍어봄
+                items[i].onclick = console.log(i + '번째 itemArr 원소');
+                console.log(itemArr[i].onclick); // 이렇게 찍어봤을 때 null이 나옴
+                */
+                items[i].onclick = function() {
+                    alert('have a lovely day~');
+                }
+            }
+
+            // jQuery 방식: $('.클래스명')
+            $('.select').css('background', 'yellowgreen');
+            $('.select').click(function() { // .click(): 클릭 이벤트와 관련된 기능 수행 -> JavaScript에서 onclick 속성 값으로 우항에 대입해준 것들을 이 메소드의 인자로 전달함
+                console.log("클래스명 'select' 클릭됨");
+            })
+        })
+    </script>
+
+    <!--요소 선택
+                       순수 JavaScript 방식          | jQuery 방식
+        -------------------------------------------------------------------
+        document.getElementById('id명')              | $('#id명')
+        document.getElementsByTagName('태그명')      | $('태그명')
+        document.getElementsByClassName('클래스명')  | $('.클래스명')
+
+        선택된 요소의 속성 값 변경
+                      순수 JavaScript 방식       | jQuery 방식
+        -------------------------------------------------------------------
+        속성에 접근해서 대입                      | 메소드 호출
+        스타일: .style.스타일속성 = '변경할 값';  | .css('스타일속성', '변경할 값');
+        내용: .innerHTML = '변경할 값';          | .html('변경할 값');
+        이벤트: .on이벤트명 = function() {}      | .이벤트명(function() {}); -->
+    
+</body>
+</html>
