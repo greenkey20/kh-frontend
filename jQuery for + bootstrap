@@ -1,0 +1,196 @@
+<!--2021.12.24(금) 15h30-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>응용 예시</title>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 우리 수업 시간 중에 연동했던 jQuery CDN 링크 삭제/주석 처리-->
+
+    <!--BS4 tables > 마음에 드는 것 골라서 'try it yourself' > 상단 코드 중 아래 4줄 copy+paste
+        예시: https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_table_dark_hover&stacked=h-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        tbody>tr:hover { /* tbody 요소의 tr 요소에 마우스를 올렸을 때 아래와 같은 속성 부여*/
+            /* background-color: mediumseagreen;
+            color: springgreen; */
+            cursor: pointer; 
+        }
+    </style>
+</head>
+<body>
+    <h2>게시판 리스트</h2>
+
+    <table class="table table-hover">
+        <!--table마다 sequence 하나 만들어서 1, 2, 3, .. primary key 사용 -> 글 번호 매기기-->
+        <thead>
+            <tr>
+                <th>글 번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회 수</th>
+                <th>작성일</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!--(tr>td*5)*3-->
+            <tr>
+                <td>3</td>
+                <td>행복한 크리스마스 보내기 ideas</td>
+                <td>해피</td>
+                <td>3</td>
+                <td>2021-12-24</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>knou 가을학기 기말시험 끝</td>
+                <td>미피</td>
+                <td>17</td>
+                <td>2021-12-19</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>공부 동기부여 sources</td>
+                <td>토미</td>
+                <td>22</td>
+                <td>2021-12-18</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br><br>
+    선택된 게시글 정보 :
+    <!--label#l$*5-->
+    <label id="l1">글 번호</label> /
+    <label id="l2">제목</label> /
+    <label id="l3">작성자</label> /
+    <label id="l4">조회 수</label> /
+    <label id="l5">작성일</label>
+
+    <!--나의 idea = 클릭 이벤트 -> 클릭된 td의 콘텐트 가져오기 -> label에 컨텐트에 넣기?-->
+    <script>
+        $(function() {
+            // tbody에 있는 tr을 클릭했을 때
+            $('tbody>tr').click(function() {
+                // 클릭한 나를 기준으로(this) -> 나의 자손들 선택 = td 5개 선택됨 -> 0~4번째 요소(<td>..</td>) 가져오기
+                console.log($(this).children().text()); // 클릭한 행에 따라 '1공부 동기부여 sources토미222021-12-18'와 같이 찍힘
+
+                // '필터링 관련 선택자' 마지막 부분 > eq 수업내용 참조
+                /*
+                console.log($(this).children().eq(0).text()); // 1
+                console.log($(this).children().eq(1).text()); // 공부 동기부여 sources
+                console.log($(this).children().eq(2).text()); // 토미
+                console.log($(this).children().eq(3).text()); // 22
+                console.log($(this).children().eq(4).text()); // 2021-12-18
+                */
+
+                // 하드코딩; 코드에 반복이 너무 많음, 가독성 안 좋음..
+                /*
+                $('#l1').text($(this).children().eq(0).text());
+                $('#l2').text($(this).children().eq(1).text());
+                $('#l3').text($(this).children().eq(2).text());
+                $('#l4').text($(this).children().eq(3).text());
+                $('#l5').text($(this).children().eq(4).text());
+                */
+
+                // 현재 클릭 이벤트가 발생한 해당 tr 요소의 자손들(td)에게 순차적으로 접근
+                $(this).children().each(function(index, value) { // index, value는 자동으로 들어옴 -> 다음 주에 설명해 주실 것임
+                    $('#l'+(index+1)).text($(value).text());
+                })
+            })
+        }) 
+    </script>    
+    <br><br><br>
+
+    <!--2021.12.24(금) 16h30-->
+    <!--bootstrap 버튼 예시; 스타일이 각 클래스에 들어가 있음-->
+    <button type="button" class="btn">초기화</button>
+    <button type="button" class="btn btn-primary">확인</button>
+    <button type="button" class="btn btn-secondary">취소</button>
+    <button type="button" class="btn btn-success">로그인</button>
+    <button type="button" class="btn btn-info">회원 가입</button>
+    <button type="button" class="btn btn-warning">Warning</button>
+    <button type="button" class="btn btn-danger">Danger</button>
+    <button type="button" class="btn btn-dark">더 보기</button>
+    <button type="button" class="btn btn-light">Light</button>
+    <button type="button" class="btn btn-link">Link</button>
+    <br><br>
+
+    <!--위 각 클래스에 들어가있는 스타일을 꼭 버튼 요소에만 적용할 수 있는 건 아님 + 다른 요소들에도 적용 가능함-->
+    <div class="btn btn-info">jag är 'hej, välkommen!' div 요소</div>
+    <a class="btn btn-secondary" href="">나는 a 태그랍니다</a>
+
+    <br><br>
+    <hr>
+    <!--bootstrap 이메일 폼 예시; 내가 원하는대로/나의 필요에 따라 변경 가능 e.g. 로그인 양식으로 바꿔봄-->
+    <form action="/action_page.php">
+        <div class="form-group">
+          <label for="email">ID:</label>
+          <input type="email" class="form-control" placeholder="ID(이메일 형식)를 입력해주세요" id="email">
+        </div>
+        <div class="form-group">
+          <label for="pwd">비밀번호:</label>
+          <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" id="pwd">
+        </div>
+        <div class="form-group form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox"> 정보를 기억해둘래요~
+          </label>
+        </div>
+        <button type="submit" class="btn btn-success">로그인</button>
+    </form>
+
+    <br><br>
+    <hr>
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#loginModal">
+        로그인 창 띄우기
+    </button>
+    
+    <!-- The Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-dialog">
+        <div class="modal-content">
+    
+            <!-- Modal Header -->
+            <div class="modal-header">
+            <h4 class="modal-title">로그인</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button> <!--팝업창 우측 상단에 보이는 x자 버튼-->
+            </div>
+    
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form action="/action_page.php">
+                    <div class="form-group">
+                      <label for="email">ID:</label>
+                      <input type="email" class="form-control" placeholder="ID(이메일 형식)를 입력해주세요" id="email">
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd">비밀번호:</label>
+                      <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" id="pwd">
+                    </div>
+                    <div class="form-group form-check">
+                      <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"> 정보를 기억해둘래요~
+                      </label>
+                    </div>
+                    <button type="submit" class="btn btn-success">로그인</button>
+                </form>
+            </div>
+    
+            <!-- Modal footer -->
+            <!--나의 로그인 팝업창에서는 '취소(close)' 필요 없는 바, 주석 처리해둠-->
+            <!-- <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div> -->
+    
+        </div>
+        </div>
+    </div>
+
+</body>
+</html>
