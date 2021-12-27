@@ -1,0 +1,265 @@
+<!--2021.12.27(월) 9h10-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>추가적인 메소드</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .highlight-0 {
+            background-color: forestgreen;
+        }
+
+        .highlight-1 {
+            background-color: limegreen;
+        }
+
+        .highlight-2 {
+            background-color: lightgreen;
+        }
+
+        .highlight-3 {
+            background-color: greenyellow;
+        }
+
+        .highlight-4 {
+            background-color: yellowgreen;
+        }
+    </style>    
+</head>
+<body>
+    <h1>추가적인 메소드</h1>
+
+    <h3>each 메소드</h3>
+    <p>
+        객체가 가지고 있는 모든 속성에 순차적으로 접근하고자 할 때, 또는 배열의 모든 인덱스에 순차적으로 접근하고자 할 때, 사용할 수 있는, for in문과 유사하게 수행되는 메소드
+        <!--for in문의 문제점 = 선택자가 있으면 선택되지 않음(? 강사님 설명 제대로 못 들음)-->
+    </p>
+
+    <pre>
+        순차적으로 객체/배열의 속성이나 인덱스에 접근할 때마다 함수가 실행
+
+        표현법: 매개변수1/2 생략 가능; 편한 방법을 사용해도 되나, 표현법1 사용 권장
+        1. $.each(객체/배열명, function(매개변수1, 매개변수2) {
+                순차적으로 접근해서 수행할 내용;
+        })
+
+        2. 배열명.each(function(매개변수1, 매개변수2) { <!--나의 질문 = 시작 부분 필기 내용을 $(배열명).로 바꾸면 되는 것인가?-->
+                순차적으로 접근해서 수행할 내용;
+        })
+        
+        case1) 객체를 제시한 경우, 표현법1만 사용 가능함
+            매개변수1: 순차적으로 접근된, 객체의 속성명(key)
+            매개변수2: 해당 속성 값(value)
+
+        case2) 배열을 제시한 경우, 표현법1+2 사용 가능함
+            매개변수1: 순차적으로 접근된, 배열의 인덱스(index)
+            매개변수2: 실제 해당 값(value)
+    </pre>
+
+    <div id="area1">
+
+    </div>
+
+    <script>
+        $(function() {
+            // case2) 배열을 제시하는 경우
+            var arr = ['해', '피', '토', '미']; // 배열 선언
+
+            // 방법1) 일반적인 for문
+            // for (var i = 0; i < arr.length; i++) {}
+
+            // 방법2) for in문
+            /*
+            for (var index in arr) {
+                console.log('index : ' + index + ', 값 : ' + arr[index]);
+            }
+            */
+
+            // 방법3) each 메소드
+            // 표현법1)
+            /*
+            $.each(arr, function(index, value) {
+                console.log('index : ' + index + ', 값 : ' + value);
+            })
+            */
+
+            // 표현법2)
+            /*
+            arr.each(function(index, value) { // 이렇게 쓴 것은 $ 표시가 없는 바, jQuery(x) JavaScript(o) 문법 쓴 것임 -> Uncaught TypeError: arr.each is not a function
+                console.log('index : ' + index + ', 값 : ' + value);
+            })
+            */
+            $(arr).each(function(index, value) { // 이렇게 쓴 것은 $ 표시가 없는 바, jQuery(x) JavaScript(o) 문법 쓴 것임 -> Uncaught TypeError: arr.each is not a function
+                console.log('index : ' + index + ', 값 : ' + value); // 나의 관찰 = value 대신 arr[index]라고 써도 동작?
+            })
+
+            // case1) 객체를 제시하는 경우
+            var student = {
+                name : "강미피",
+                age : "4",
+                address : "스톡홀름"
+            }
+
+            // 방법1) 객체의 key+value 세트는 map 같은 개념으로 항아리라서 index 개념/순서가 없는 바, 순차적인 접근 불가능 -> 일반적인 for문 사용할 수 없음
+
+            // 방법2) for in문
+            /*
+            for (var key in student) {
+                console.log('속성명 : ' + key + ', 값 : ' + student[key]); // student['key']라고 쓰면 undefined
+            }
+            */
+
+            // 방법3) each 메소드
+            // 표현법1) 객체의 경우 표현법1만 사용 가능함
+            $.each(student, function(key, value) {
+                console.log('속성명 : ' + key + ', 값 : ' + value);  // 나의 관찰 = value 대신 student[key]라고 써도 동작?
+            })
+
+            // 표현법2) 객체의 경우 사용 불가능
+            /*
+            $(student).each(function(key, value) {
+                console.log('속성명 : ' + key + ', 값 : ' + value); // 속성명 : 0, 값 : [object Object]
+            })
+            */
+
+            // case3) 객체 배열(배열 안에 객체들이 담겨 있는 것)을 제시하는 경우
+            // Ajax로 db로부터 여러 가지 정보(?)를 1번에 빼와서/읽어와서 웹페이지에 뿌려줄 때 객체 배열 자주 사용
+            var links = [{name:'Naver', link:'http://www.naver.com'},
+                         {name:'Google', link:'http://www.google.com'},
+                         {name:'Daum', link:'http://www.daum.net'}];
+
+            var output = '';
+
+            // <a href='주소'>이름</a>
+            $.each(links, function(index, item) { // each문 돌 때마다 순차적으로 각 index에 담긴 객체 = item
+                output += "<a href='" + item.link + "'>" + item.name + "</a><br>"; // item 객체의 속성 접근 시 ".속성명"
+            })
+
+            $('#area1').html(output);
+            
+            // 10h25 실습 문제; ☆잘 기억해둘 포인트1
+            $('#btn').click(function() {
+                // db로부터 아래 데이터를 조회했다고 가정 + 데이터를 테이블에 담고자 함
+                const students = [{name:'강무민', age:4, address:'무민밸리'},
+                                {name:'강스노크메이든', age:4, address:'스노크힐'},
+                                {name:'강혁', age:5, address:'서울'}];
+
+                var result = '';
+
+                $.each(students, function(index, obj) { // obj에 담긴 객체의 속성들에 순차적으로 접근하기 위해 2중 each문을 사용할 수도 있으나, 잘 사용하지는 않음 -> 나의 질문 = 2중 each문 어떻게 써야 할까?
+                    result += '<tr>'
+                            + '<td>' + obj.name + '</td>'
+                            + '<td>' + obj.age + '</td>'
+                            + '<td>' + obj.address + '</td>'
+                            + '</tr>';
+                })
+
+                console.log(result);
+                $('#areaT').children('tbody').html(result); // 강사님께서는 선택자 $('#areaT tbody')로 선택하심
+            }) 
+        })         
+    </script>
+
+    <br>
+    <hr>
+
+    <table id="areaT" border="1">
+        <thead>
+            <tr>
+                <th>이름</th>
+                <th>나이</th>
+                <th>주소</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> -->
+        </tbody>
+    </table>
+
+    <button id="btn">조회</button>
+
+    <br><br>
+    <h4>each 메소드를 사용하는 대표적인 경우 = 선택된 여러 개의 요소에 순차적으로 접근하고자 할 때</h4>
+    <!--#wrap>h1{item-$}*5-->
+    <div id="wrap">
+        <h1>item-1</h1>
+        <h1>item-2</h1>
+        <h1>item-3</h1>
+        <h1>item-4</h1>
+        <h1>item-5</h1>
+    </div>
+
+    <script>
+        $(function() {
+            $('#wrap>h1').each(function(index, value) { // 강사님께서는 선택자 $('#wrap').children()으로 선택하심 -> 이 선택자의 결과는 배열 [h1, h1, h1, h1, h1] 형태
+                console.log(value); // value 요소객체는 JavaScript 방식의 객체 -> 나의 질문 = comment? pourquoi?
+                // value.addClass('highlight-' + index); // addClass()는 jQuery 방식의 메소드 -> JavaScript 방식의 객체에 대해 사용할 수 없음
+
+                // 방법1) $()로 감싸줌
+                // $(value).addClass('highlight-' + index);
+
+                // 방법2) 요소객체의 속성에 직접 접근(JavaScript 방식)
+                // value.className = 'highlight-' + index;
+
+                // 방법3) $(this) = 순차적으로 접근되는 해당 요소객체
+                $(this).addClass('highlight-' + index);
+                // $(this).html($('.highlight-' + index).html()) // 나의 질문 = h1의 content영역에 배경 색상의 이름을 어떻게 넣을 수 있을까?
+            })
+        })
+
+        // 'use strict' 문법 체크
+    </script>
+
+    <br>
+    <h4>JavaScript 방식의 요소객체를 jQuery 방식으로 바꿔보기</h4> <!--☆잘 기억해둘 포인트2-->
+    <div id="test">안녕하세요</div>
+
+    <script>
+        $(function() {
+            // JavaScript 방식
+            // 선택자
+            var div = document.getElementById('test');
+            // 스타일 속성(배경 색상 등) 변경
+            // div.style.backgroundColor = 'green'; // 스타일 잘 적용됨
+
+            // jQuery 방식
+            // div.css('background', 'green'); // JavaScript 방식의 객체 div에 대해 css() 메소드 없으므로(div.css is not a function), 이 코드로 스타일 적용 안 됨 vs jQuery 방식의 선택자($())로 요소 선택해야 함
+            $(div).css('background', 'green');
+        })
+    </script>
+
+    <br>
+    <hr>
+    <h3>is 메소드</h3>
+    <p>
+        $('선택자').is('선택자'): 선택된 요소를 기준으로 매개변수로 전달한 값과 일치하는지 판단해서 그에 해당되는 결과를 true(일치)/false(불일치)로 판단
+    </p>
+
+    <h3 class="test">test1</h3>
+    <h3>test2</h3>
+    <h3 class="test">test3</h3>
+    <h3 class="test">test4</h3>
+    <h3>test5</h3>
+    <h3 class="test">test6</h3>
+
+    <script>
+        $(function() {
+            $('h3').each(function() {                
+                if ($(this).is('.test')) { // 현재 순차적으로 접근하는 h3 요소가 test 클래스를 가지고 있을 경우(= 조건 제시 = 조건문 사용)
+                    $(this).css({'font-size': '35px', background: 'lime'});
+                }
+                else {
+                    $(this).css('color', 'lightgreen').css('background', 'turquoise');
+                }
+            })
+        })
+    </script>
+    
+</body>
+</html>
