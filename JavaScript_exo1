@@ -1,0 +1,104 @@
+<!--2021.12.28(화) 9h30-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>체크박스_평가 대비</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <h3>체크박스_평가 대비</h3>
+
+    <div class="wrapper">
+        <div>
+            <input type="checkbox" class="batch" id="all"><label>전체</label>
+            <input type="checkbox" class="batch" id="java"><label>자바</label>
+            <input type="checkbox" class="batch" id="sec"><label>보안</label>
+        </div>
+
+        <hr>
+
+        <div>
+            <input type="checkbox" class="java chk">자바<div>Java</div> <!--클래스 속성 값은 여러 개를 줄 수 있고, 띄어쓰기로 구분하면 됨-->
+            <input type="checkbox" class="sec chk">보안<div>OS</div>
+            <input type="checkbox" class="java chk">자바<div>Oracle</div>
+            <input type="checkbox" class="sec chk">보안<div>Network</div>
+            <input type="checkbox" class="java chk">자바<div>Web</div>
+        </div>
+    </div>
+
+    <script>
+        $(function() { // 내가 스크립트를 적용할 대상이 정적인 경우에는 안 써도 될 수도 있는데, 이 script가 head 영역에 있고 $(function() {})을 안 썼을 경우 head 영역 그냥 읽고 body로 내려가기 때문에 동작이 원하는대로 되지 않음 -> $(function() {}) 항상 쓰기
+            // 전체 선택된 상태에서 #java나 #sec 체크 해제되었을 때 #all이 체크 해제되도록 함
+            $('.batch').on('change', function() {
+                if($(this).prop('checked') == false) {
+                    $('#all').prop('checked', false);
+                }
+            })
+            
+            // #java 및 #sec가 모두 체크되었을 때 #all도 체크되도록 함(수업 후 내가 작성해본 부분)
+            $('#all').siblings().on('change', function() {
+                if($('#java').prop('checked') == true && $('#sec').prop('checked') == true) {
+                    $('#all').prop('checked', true);
+                }
+            })
+            
+            $('#all').on('change', function() {
+                var $all = $('#all').prop('checked');
+
+                if ($all) {
+                    $('.chk').prop('checked', true);
+                    $('.batch').prop('checked', true);
+                }
+                else {
+                    $('.chk').prop('checked', false);
+                    $('.batch').prop('checked', false);
+                }
+            })
+
+            $('#java').on('change', function() { // 'change' 이벤트 = 상태의 변경이 일어나면 e.g. 체크박스의 checked된 상태, radio button 등 
+                var $java = $('#java').prop('checked'); // prop() 메소드도 getter처럼 사용 가능
+
+                if ($java) {
+                    $('.java').prop('checked', true);
+                }
+                else {
+                    $('.java').prop('checked', false);
+                }
+
+                /*
+                if($java == true && $('#sec').prop('checked') == true) {
+                    $('#all').prop('checked', true);
+                }
+                */
+            })
+
+            /*
+            $('#java').on('change', function() {
+                if($('#java').prop('checked') == true && $('#sec').prop('checked') == true) {
+                    $('#all').prop('checked', true);
+                }
+            })
+            */
+
+            $('#sec').on('change', function() {
+                var $sec = $('#sec').prop('checked');
+
+                if ($sec) {
+                    $('.sec').prop('checked', true);
+                }
+                else {
+                    $('.sec').prop('checked', false);
+                }
+
+                /*
+                if($('#java').prop('checked') == true && $sec == true) {
+                    $('#all').prop('checked', true);
+                }
+                */
+            })
+        })
+    </script>
+    
+</body>
+</html>
