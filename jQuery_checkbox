@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>평가자 checklist2a</title>
+    <!--2021.12.31(금) 14h
+        작성자: 강은영
+        문서 목적: 반려동물 양육 관련 정보 검색 서비스 중 '게시글 필터링 기능 구현'
+        개발 방향: 주요 기능 도출 및 확장 가능성 고려
+        사용 기술: HTML, jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!--CDN을 활용한 온라인 방식으로 jQuery 연결-->
+</head>
+<body>
+    <h3>내용1: 주 기능 - 게시글 필터링</h3>
+    <h2>게시판</h2>
+
+    <div class="wrapper"> <!--게시글 필터링 및 목록 관련 전체 div-->
+        <div> <!--게시글 필터 부분 div-->
+            <!--기능: 올라온 게시글이 '전문가'가 올린 게시글인지, '일반 사용자'가 올린 글인지 필터를 하기 위해서, 체크박스로 '전체', '전문가', '일반 사용자'로 하여 구분함-->
+            게시글 구분: 
+            <input type="checkbox" class="filter" id="all"><label class="batchL">전체</label>
+            <input type="checkbox" class="filter" id="expert"><label class="batchL">전문가</label>
+            <input type="checkbox" class="filter" id="public"><label class="batchL">일반 사용자</label>            
+        </div>
+
+        <hr> <!--영역 구분선-->
+
+        <div> <!--게시글 목록 부분 div-->
+            <!--기능 구현 및 동작 확인을 위해 아래 샘플 데이터 5건 삽입-->
+            <!--게시글 목록은 테이블로 구현-->
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>게시글 구분</th>
+                        <th>게시글 제목</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" class="public post">일반 사용자</td>
+                        <td>일반인 상품 리뷰1</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="expert post">전문가</td>
+                        <td>고양이 의사 소견1</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="public post">일반 사용자</td>
+                        <td>일반인 상품 리뷰2</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="expert post">전문가</td>
+                        <td>토끼 의사 소견2</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" class="public post">일반 사용자</td>
+                        <td>강아지 놀이터_주말 정모 공지</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(function() { // 이 html 문서(의 모든 요소)가 로드/준비되면
+
+            // 요구사항1) 전체를 누르면 전체, 전문가, 일반 사용자가 모두 체크되고, 다시 전체를 누르면 모두 체크 해제됨
+            $('#all').on('change', function() {
+                var $all = $('#all').prop('checked'); // '전체' 체크박스의 체크 여부(체크된 경우 true vs 체크 해제된 경우 false)를 jQuery 변수 $all에 담아 재활용하고자 함
+
+                if ($all) { // '전체' 체크박스를 누르면
+                    $('.filter').prop('checked', true); // 전체, 전문가, 일반 사용자가 모두 체크됨
+                    $('.post').prop('checked', true); // 모든 게시글도 체크됨
+                }
+                else {  // '전체' 체크박스를 해제하면
+                    $('.filter').prop('checked', false); // 전체, 전문가, 일반 사용자가 모두 체크 해제됨
+                    $('.post').prop('checked', false); // 모든 게시글도 체크 해제됨
+                }
+            })
+
+            // 요구사항2) 전문가나 일반 사용자 중 하나라도 체크가 되어있지 않으면, 체크박스 '전체'는 해제됨
+            $('.filter').on('change', function() {
+                if($(this).prop('checked') == false) {
+                    $('#all').prop('checked', false);
+                }
+            })
+
+            // 추가 기능1) 전문가 및 일반 사용자가 모두 체크되어 있으면, 체크박스 '전체'는 체크됨
+            $('#all').siblings().on('change', function() {
+                if($('#expert').prop('checked') == true && $('#public').prop('checked') == true) {
+                    $('#all').prop('checked', true);
+                }
+            })
+
+            // 추가 기능2) '전문가' 필터 체크박스 조작 시, '전문가' 게시글 선택 또는 해제
+            $('#expert').on('change', function() {
+                var $expert = $('#expert').prop('checked') // '전문가' 필터 체크박스의 체크 여부를 jQuery 변수 $expert에 담아 재활용하고자 함
+
+                if ($expert) { // '전문가' 필터 체크박스를 누르면
+                    $('.expert').prop('checked', true); // '전문가' 게시글 체크
+                }
+                else {
+                    $('.expert').prop('checked', false);
+                }
+            })
+
+            // 추가 기능3) '일반 사용자' 필터 체크박스 조작 시, '일반 사용자' 게시글 선택 또는 해제
+            $('#public').on('change', function() {
+                var $public = $('#public').prop('checked') // '일반 사용자' 필터 체크박스의 체크 여부를 jQuery 변수 $public에 담아 재활용하고자 함
+
+                if ($public) { // '일반 사용자' 필터 체크박스를 누르면
+                    $('.public').prop('checked', true); // '일반 사용자' 게시글 체크
+                }
+                else {
+                    $('.public').prop('checked', false);
+                }
+            })      
+
+        })
+
+    </script>
+    
+</body>
+</html>
