@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>평가자 checklist2b</title>
+    <!--2021.12.31(금) 14h
+        작성자: 강은영
+        문서 목적: 반려동물 양육 관련 정보 검색 서비스 중 '반려동물 용품 판매 리스트 구현'
+        개발 방향: 일반 기능 도출 및 샘플 데이터 사용
+        사용 기술: HTML, CSS-->    
+    <style>
+        /* 상품 리스트 테이블 경계선 속성 부여*/
+        .pList * {
+            border: 1px solid lightgreen;
+        }
+
+        /* 상품 제목에 마우스가 올라가면 제목이 커지는 효과 부여*/
+        .product:hover { /* 상품 제목을 나타내는 칸들을 클래스 선택자 .product로 선택 -> 마우스가 올라가면*/
+            font-size: larger; /* 글자 크기를 현재보다 크게 설정*/
+            font-weight: bolder; /* 글자 굵기를 현재보다 굵게 설정*/
+            cursor: pointer; /* 마우스 커서 모양이 손가락으로 바뀌도록 설정*/
+        }
+    </style>
+</head>
+<body>
+    <h3>내용2: 일반 기능 - 게시글 제목 확대</h3>
+    <h2>반려동물 용품 판매 list</h2>
+
+    <div class="wrapper"> <!--상품 판매 리스트 관련 전체 div-->
+        <!--반려동물 용품 판매 리스트(제목, 가격)가 보여짐 -> 테이블로 구현-->
+        <!--기능 구현 및 동작 확인을 위해 아래 샘플 데이터 4건 삽입-->
+        <table class="pList"> <!--테이블에 클래스명 줘서 테이블 스타일 적용할 수 있도록 함-->
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>가격</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--해당 제목에 마우스가 올라가면 제목이 커지는 효과를 부여하기 위해 '제목'이 표시되는 칸에 'product' 클래스명 지어줌-->
+                <tr>
+                    <td class="product">강아지 집</td>
+                    <td>50,000원</td>
+                </tr>
+                <tr>
+                    <td class="product">고양이 장난감</td>
+                    <td>30,000원</td>
+                </tr>
+                <tr>
+                    <td class="product">토끼 사료</td>
+                    <td>25,000원</td>
+                </tr>
+                <tr>
+                    <td class="product">토끼 장난감</td>
+                    <td>20,000원</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</body>
+</html>
